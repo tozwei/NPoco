@@ -7,7 +7,8 @@
     <AssemblyName>NPoco.JsonNet</AssemblyName>
     <PackageId>NPoco.JsonNet</PackageId>
     <PackageTags>orm;sql;micro-orm;database;mvc</PackageTags>
-    <PackageProjectUrl>https://github.com/schotime/NPoco</PackageProjectUrl>
+    <!--<PackageProjectUrl>https://github.com/schotime/NPoco</PackageProjectUrl>-->
+	<PackageProjectUrl>https://github.com/tozwei/NPoco</PackageProjectUrl>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
