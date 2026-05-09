@@ -29,8 +29,8 @@ namespace NPoco.Expressions
         List<SelectMember> ISqlExpression.SelectMembers { get { return selectMembers; } }
         List<GeneralMember> ISqlExpression.GeneralMembers { get { return generalMembers; } }
         string ISqlExpression.WhereSql { get { return whereExpression; } }
-        int? ISqlExpression.Rows { get { return Rows; } }
-        int? ISqlExpression.Skip { get { return Skip; } }
+        long? ISqlExpression.Rows { get { return Rows; } }
+        long? ISqlExpression.Skip { get { return Skip; } }
         Type ISqlExpression.Type { get { return _type; } }
         object[] ISqlExpression.Params { get { return Context.Params; } }
         string ISqlExpression.TableHint { get { return tableHint; } }
@@ -158,6 +158,7 @@ namespace NPoco.Expressions
             return this;
         }
 
+
         private void appendSqlFilter(string sqlFilter)
         {
             if (string.IsNullOrEmpty(whereExpression))
@@ -180,6 +181,20 @@ namespace NPoco.Expressions
         public virtual ISqlExpression<T> Where(Expression<Func<T, bool>> predicate)
         {
             if (predicate != null)
+            {
+                And(predicate);
+            }
+            else
+            {
+                whereExpression = string.Empty;
+            }
+
+            return this;
+        }
+
+        public virtual ISqlExpression<T> WhereIf(bool isWhere, Expression<Func<T, bool>> predicate)
+        {
+            if (isWhere && predicate != null)
             {
                 And(predicate);
             }
@@ -322,7 +337,7 @@ namespace NPoco.Expressions
         /// <param name='rows'>
         /// Number of rows returned by a SELECT statement
         /// </param>
-        public virtual ISqlExpression<T> Limit(int skip, int rows)
+        public virtual ISqlExpression<T> Limit(long skip, long rows)
         {
             Rows = rows;
             Skip = skip;
@@ -335,7 +350,7 @@ namespace NPoco.Expressions
         /// <param name='rows'>
         /// Number of rows returned by a SELECT statement
         /// </param>
-        public virtual ISqlExpression<T> Limit(int rows)
+        public virtual ISqlExpression<T> Limit(long rows)
         {
             Rows = rows;
             Skip = 0;
@@ -507,8 +522,8 @@ namespace NPoco.Expressions
             }
         }
 
-        private int? Rows { get; set; }
-        private int? Skip { get; set; }
+        private long? Rows { get; set; }
+        private long? Skip { get; set; }
 
         protected internal PocoData ModelDef
         {
@@ -1110,8 +1125,8 @@ namespace NPoco.Expressions
 
             // Handle conversion operators (op_Implicit, op_Explicit) which cannot be dynamically invoked
             // These typically wrap constant values, so we visit the operand instead
-            if (m.Method.IsSpecialName && 
-                (m.Method.Name == "op_Implicit" || m.Method.Name == "op_Explicit") && 
+            if (m.Method.IsSpecialName &&
+                (m.Method.Name == "op_Implicit" || m.Method.Name == "op_Explicit") &&
                 m.Arguments.Count == 1)
             {
                 return Visit(m.Arguments[0]);

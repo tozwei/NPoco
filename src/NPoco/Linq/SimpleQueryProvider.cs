@@ -55,7 +55,7 @@ namespace NPoco.Linq
             _listExpression = expression;
             return QueryProviderWithIncludes(expression, null, joinType, joinTableHint);
         }
-        
+
         public IAsyncQueryProviderWithIncludes<T> Include<T2>(JoinType joinType = JoinType.Left, string joinTableHint = "") where T2 : class
         {
             var oneToOneMembers = _database.PocoDataFactory.ForType(typeof(T))
@@ -192,9 +192,9 @@ namespace NPoco.Linq
             return (await Count(whereExpression, cancellationToken).ConfigureAwait(false)) > 0;
         }
 
-        public async Task<Page<T>> ToPage(int page, int pageSize, CancellationToken cancellationToken = default)
+        public async Task<Page<T>> ToPage(long page, long pageSize, CancellationToken cancellationToken = default)
         {
-            int offset = (page - 1) * pageSize;
+            long offset = (page - 1) * pageSize;
 
             // Save the one-time command time out and use it for both queries
             int saveTimeout = _database.OneTimeCommandTimeout;
@@ -222,10 +222,10 @@ namespace NPoco.Linq
             var sql = _buildComplexSql.GetSqlForProjection(projectionExpression, false);
             return ExecuteQueryAsync(sql, cancellationToken).Select(projectionExpression.Compile()).ToListAsync(cancellationToken).AsTask();
         }
-        
-        public async Task<Page<T2>> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, int page, int pageSize, CancellationToken cancellationToken = default)
+
+        public async Task<Page<T2>> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, long page, long pageSize, CancellationToken cancellationToken = default)
         {
-            int offset = (page - 1) * pageSize;
+            long offset = (page - 1) * pageSize;
 
             // Save the one-time command time out and use it for both queries
             int saveTimeout = _database.OneTimeCommandTimeout;
@@ -256,6 +256,15 @@ namespace NPoco.Linq
         {
             var sql = _buildComplexSql.GetSqlForProjection(projectionExpression, true);
             return ExecuteQueryAsync(sql, cancellationToken).Select(projectionExpression.Compile()).ToListAsync(cancellationToken).AsTask();
+        }
+
+        public IAsyncQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression)
+        {
+            if (isWhere)
+            { 
+                _sqlExpression = _sqlExpression.Where(whereExpression);
+            }
+            return this;
         }
 
         public IAsyncQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)
@@ -484,9 +493,9 @@ namespace NPoco.Linq
             return Count(whereExpression) > 0;
         }
 
-        public new Page<T> ToPage(int page, int pageSize)
+        public new Page<T> ToPage(long page, long pageSize)
         {
-            int offset = (page - 1) * pageSize;
+            long offset = (page - 1) * pageSize;
 
             // Save the one-time command time out and use it for both queries
             int saveTimeout = _database.OneTimeCommandTimeout;
@@ -515,9 +524,9 @@ namespace NPoco.Linq
             return ExecuteQuery(sql).Select(projectionExpression.Compile()).ToList();
         }
 
-        public Page<T2> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, int page, int pageSize)
+        public Page<T2> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, long page, long pageSize)
         {
-            int offset = (page - 1) * pageSize;
+            long offset = (page - 1) * pageSize;
 
             // Save the one-time command time out and use it for both queries
             int saveTimeout = _database.OneTimeCommandTimeout;
@@ -563,7 +572,7 @@ namespace NPoco.Linq
         {
             return ExecuteQuery(BuildSql());
         }
-        
+
         private IEnumerable<T> ExecuteQuery(Sql sql)
         {
             return _database.QueryImp(default(T), _listExpression, null, sql, _pocoData);
@@ -645,7 +654,7 @@ namespace NPoco.Linq
             return base.Any(whereExpression, cancellationToken);
         }
 
-        public Task<Page<T>> ToPageAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+        public Task<Page<T>> ToPageAsync(long page, long pageSize, CancellationToken cancellationToken = default)
         {
             return base.ToPage(page, pageSize, cancellationToken);
         }
@@ -655,7 +664,7 @@ namespace NPoco.Linq
             return base.ProjectTo(projectionExpression, cancellationToken);
         }
 
-        public Task<Page<T2>> ToProjectedPageAsync<T2>(Expression<Func<T, T2>> projectionExpression, int page, int pageSize, CancellationToken cancellationToken = default)
+        public Task<Page<T2>> ToProjectedPageAsync<T2>(Expression<Func<T, T2>> projectionExpression, long page, long pageSize, CancellationToken cancellationToken = default)
         {
             return base.ToProjectedPage(projectionExpression, page, pageSize, cancellationToken);
         }
@@ -669,7 +678,7 @@ namespace NPoco.Linq
         {
             return base.Distinct(cancellationToken);
         }
-        
+
         public new IQueryProvider<T> IncludeMany(Expression<Func<T, IList>> expression, JoinType joinType = JoinType.Left, string joinTableHint = "")
         {
             return (IQueryProvider<T>)base.IncludeMany(expression, joinType, joinTableHint);
@@ -698,6 +707,16 @@ namespace NPoco.Linq
         public new IQueryProviderWithIncludes<T> Hint(string tableHint)
         {
             return (IQueryProviderWithIncludes<T>)base.Hint(tableHint);
+        }
+
+
+        public new IQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression)
+        {
+            if (isWhere)
+            {
+                return Where(whereExpression);
+            }
+            return this;
         }
 
         public new IQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)
@@ -754,5 +773,6 @@ namespace NPoco.Linq
         {
             return (IQueryProvider<T>)base.From(builder);
         }
+
     }
 }

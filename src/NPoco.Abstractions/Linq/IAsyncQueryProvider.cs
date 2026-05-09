@@ -27,9 +27,9 @@ namespace NPoco.Linq
         Task<int> Count(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<bool> Any(CancellationToken cancellationToken = default);
         Task<bool> Any(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
-        Task<Page<T>> ToPage(int page, int pageSize, CancellationToken cancellationToken = default);
+        Task<Page<T>> ToPage(long page, long pageSize, CancellationToken cancellationToken = default);
         Task<List<T2>> ProjectTo<T2>(Expression<Func<T, T2>> projectionExpression, CancellationToken cancellationToken = default);
-        Task<Page<T2>> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, int page, int pageSize, CancellationToken cancellationToken = default);
+        Task<Page<T2>> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, long page, long pageSize, CancellationToken cancellationToken = default);
         Task<List<T2>> Distinct<T2>(Expression<Func<T, T2>> projectionExpression, CancellationToken cancellationToken = default);
         Task<List<T>> Distinct(CancellationToken cancellationToken = default);
     }
@@ -53,9 +53,9 @@ namespace NPoco.Linq
         IEnumerable<T> ToEnumerable();
         List<dynamic> ToDynamicList();
         IEnumerable<dynamic> ToDynamicEnumerable();
-        Page<T> ToPage(int page, int pageSize);
+        Page<T> ToPage(long page, long pageSize);
         List<T2> ProjectTo<T2>(Expression<Func<T, T2>> projectionExpression);
-        Page<T2> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, int page, int pageSize);
+        Page<T2> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, long page, long pageSize);
         List<T2> Distinct<T2>(Expression<Func<T, T2>> projectionExpression);
         List<T> Distinct();
         Task<List<T>> ToListAsync(CancellationToken cancellationToken = default);
@@ -73,15 +73,16 @@ namespace NPoco.Linq
         Task<int> CountAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<bool> AnyAsync(CancellationToken cancellationToken = default);
         Task<bool> AnyAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
-        Task<Page<T>> ToPageAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+        Task<Page<T>> ToPageAsync(long page, long pageSize, CancellationToken cancellationToken = default);
         Task<List<T2>> ProjectToAsync<T2>(Expression<Func<T, T2>> projectionExpression, CancellationToken cancellationToken = default);
-        Task<Page<T2>> ToProjectedPageAsync<T2>(Expression<Func<T, T2>> projectionExpression, int page, int pageSize, CancellationToken cancellationToken = default);
+        Task<Page<T2>> ToProjectedPageAsync<T2>(Expression<Func<T, T2>> projectionExpression, long page, long pageSize, CancellationToken cancellationToken = default);
         Task<List<T2>> DistinctAsync<T2>(Expression<Func<T, T2>> projectionExpression, CancellationToken cancellationToken = default);
         Task<List<T>> DistinctAsync(CancellationToken cancellationToken = default);
     }
 
     public interface IQueryProvider<T> : IQueryResultProvider<T>
     {
+        IQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression);
         IQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression);
         IQueryProvider<T> WhereSql(string sql, params object[] args);
         IQueryProvider<T> WhereSql(Sql sql);
@@ -97,6 +98,7 @@ namespace NPoco.Linq
 
     public interface IAsyncQueryProvider<T> : IAsyncQueryResultProvider<T>
     {
+        IAsyncQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression);
         IAsyncQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression);
         IAsyncQueryProvider<T> WhereSql(string sql, params object[] args);
         IAsyncQueryProvider<T> WhereSql(Sql sql);

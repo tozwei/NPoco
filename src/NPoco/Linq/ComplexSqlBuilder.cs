@@ -39,7 +39,7 @@ namespace NPoco.Linq
             return sql;
         }
                 
-        public Sql GetSqlForProjection<T2>(Expression<Func<T, T2>> projectionExpression, bool distinct, int skip, int rows)
+        public Sql GetSqlForProjection<T2>(Expression<Func<T, T2>> projectionExpression, bool distinct, long skip, long rows)
         {
             var selectMembers = _database.DatabaseType.ExpressionVisitor<T>(_database, _pocoData).SelectProjection(projectionExpression);
 
