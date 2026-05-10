@@ -19,7 +19,7 @@ namespace NPoco.Tests.DecoratedTests.CRUDTests
             Assert.IsNotNull(poco);
 
             poco.Age = InMemoryUsers[1].Age + 100;
-            poco.Savings = (Decimal) 1234.23;
+            poco.Savings = (Decimal)1234.23;
             Database.Update(poco);
 
             var verify = Database.SingleOrDefaultById<UserDecorated>(InMemoryUsers[1].UserId);
@@ -38,7 +38,7 @@ namespace NPoco.Tests.DecoratedTests.CRUDTests
             Assert.IsNotNull(poco);
 
             poco.Age = InMemoryUsers[1].Age + 100;
-            poco.Savings = (Decimal) 1234.23;
+            poco.Savings = (Decimal)1234.23;
             Database.Update(poco, InMemoryUsers[2].UserId);
 
             var verify = Database.SingleOrDefaultById<UserDecorated>(InMemoryUsers[2].UserId);
@@ -84,7 +84,7 @@ namespace NPoco.Tests.DecoratedTests.CRUDTests
             Assert.IsNotNull(poco);
 
             poco.Age = poco.Age + 100;
-            poco.Savings = (Decimal) 1234.23;
+            poco.Savings = (Decimal)1234.23;
             Database.Update(poco, x => x.Age);
 
             var verify = Database.SingleOrDefaultById<UserDecorated>(1);
@@ -211,6 +211,11 @@ namespace NPoco.Tests.DecoratedTests.CRUDTests
                 .Where(x => x.Id == 1)
                 .OnlyFields(x => new { x.Suggestion })
                 .Execute(updateData);
+
+            //Database.UpdateMany<UserModel>()
+            //   .WhereIf(true, x => x.Id == 1)
+            //   .OnlyFields(x => new { x.Suggestion })
+            //   .Execute(updateData);
 
             Database.Mappers.Remove(myMapper);
 

@@ -103,7 +103,28 @@ namespace NPoco.Tests.FluentTests.QueryTests
             string expected = string.Format("WHERE ({0} is not null)", escapedAgeIdentifier);
             Assert.AreEqual(expected, whereStatement);
         }
-        
+
+
+        [Test]
+        public void NullableExpressionNotEqualsNull_ReturnsIsNotNull1()
+        {
+            var sqlExpression = new DefaultSqlExpression<NullableProperty>(Database);
+            sqlExpression.WhereIf(true,x => x.Age != null);
+            var whereStatement = sqlExpression.Context.ToWhereStatement();
+            string expected = string.Format("WHERE ({0} is not null)", escapedAgeIdentifier);
+            Assert.AreEqual(expected, whereStatement);
+        }
+
+        [Test]
+        public void NullableExpressionNotEqualsNull_ReturnsIsNotNull2()
+        {
+            var sqlExpression = new DefaultSqlExpression<NullableProperty>(Database);
+            sqlExpression.WhereIf(false, x => x.Age != null);
+            var whereStatement = sqlExpression.Context.ToWhereStatement();
+            string expected = string.Format("WHERE ({0} is not null)", escapedAgeIdentifier);
+            Assert.AreEqual(expected, whereStatement);
+        }
+
         public class NullableProperty
         {
             public int? Age { get; set; }

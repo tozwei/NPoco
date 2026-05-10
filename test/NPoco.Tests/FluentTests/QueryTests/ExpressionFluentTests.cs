@@ -35,13 +35,27 @@ namespace NPoco.Tests.FluentTests.QueryTests
             Assert.AreEqual(1, users.Count);
         }
 
+        [Test]
+        public void FetchWhereIfExpressionTrueEquals()
+        {
+            var users = Database.Query<User>().WhereIf(true, y => y.UserId.Equals(2)).ToList();
+            Assert.AreEqual(1, users.Count);
+        }
+
+        [Test]
+        public void FetchWhereIfExpressionFalseEquals()
+        {
+            var users = Database.Query<User>().WhereIf(false, y => y.UserId.Equals(2)).ToList();
+            Assert.AreEqual(15, users.Count);
+        }
+
         //[Test, NUnit.Framework.Ignore("Not Supported For Now")]
         public void FetchOnWithSecondGenericType()
         {
             var s = new DefaultSqlExpression<CustomerUserJoin>(Database, true);
             var joinexp = s.On<CustomerUser>((x, y) => x.Name == y.CustomerName);
-            
-            string expected = string.Format("({0}.{1} = {2}.{3})", 
+
+            string expected = string.Format("({0}.{1} = {2}.{3})",
                 TestDatabase.DbType.EscapeTableName("CUJ"),
                 TestDatabase.DbType.EscapeTableName("Name"),
                 TestDatabase.DbType.EscapeTableName("CU"),
@@ -151,7 +165,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
             var users = Database.Query<UserDecorated>().Where(x => x.Name.StartsWith("Na")).ToList();
             Assert.AreEqual(15, users.Count);
         }
-       
+
         [Test]
         public void FetchByExpressionAndDoesNotStartsWith()
         {
@@ -169,7 +183,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
         [Test]
         public void FetchByExpressionAndSelectWithSubstring()
         {
-            var users = Database.Query<UserDecorated>().ProjectTo(x => new {Name = x.Name.Substring(0, 2)}).ToList();
+            var users = Database.Query<UserDecorated>().ProjectTo(x => new { Name = x.Name.Substring(0, 2) }).ToList();
             Assert.AreEqual("Na", users[0].Name);
         }
 
@@ -200,7 +214,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
             var users = Database.Query<UserDecorated>().ProjectTo(x => new { x.Name }).ToList();
             Assert.AreEqual("Name1", users[0].Name);
         }
-        
+
         [Test]
         public void FetchByExpressionAndSelectProjection()
         {
@@ -212,7 +226,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
         [Test]
         public void FetchWithWhereExpressionContains()
         {
-            var list = new[] {1, 2, 3, 4};
+            var list = new[] { 1, 2, 3, 4 };
             var users = Database.Query<User>().Where(x => list.Contains(x.UserId)).ToList();
 
             Assert.AreEqual(4, users.Count);
@@ -244,14 +258,14 @@ namespace NPoco.Tests.FluentTests.QueryTests
             Assert.AreEqual(11, users.Count);
             for (int i = 0; i < users.Count; i++)
             {
-                AssertUserValues(InMemoryUsers[i+4], users[i]);
+                AssertUserValues(InMemoryUsers[i + 4], users[i]);
             }
         }
 
         [Test]
         public void FetchWithWhereExpressionContainsWithEmptyList()
         {
-            var list = new int[] {};
+            var list = new int[] { };
             var users = Database.Query<User>().Where(x => list.Contains(x.UserId)).ToList();
 
             Assert.AreEqual(0, users.Count);
@@ -260,7 +274,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
         [Test]
         public void FetchWithWhereExpressionInAsExtensionMethod()
         {
-            var list = new[] {1, 2, 3, 4};
+            var list = new[] { 1, 2, 3, 4 };
             var users = Database.Query<User>().Where(x => x.UserId.In(list)).ToList();
 
             Assert.AreEqual(4, users.Count);
@@ -305,7 +319,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
         [Test]
         public void FetchWithWhereExpressionInAsStaticMethod()
         {
-            var list = new[] {1, 2, 3, 4};
+            var list = new[] { 1, 2, 3, 4 };
             var users = Database.Query<User>().Where(x => S.In(x.UserId, list)).ToList();
 
             Assert.AreEqual(4, users.Count);
@@ -327,13 +341,13 @@ namespace NPoco.Tests.FluentTests.QueryTests
         [Test]
         public void UpdateWhere()
         {
-            var list = new[] {1, 2, 3, 4};
+            var list = new[] { 1, 2, 3, 4 };
 
             Database.UpdateMany<User>()
-                .Where( x => x.UserId.In(list))
+                .Where(x => x.UserId.In(list))
                 //.ExcludeDefaults()
                 .OnlyFields(x => x.Name)
-                .Execute(new User() {Name = "test"});
+                .Execute(new User() { Name = "test" });
 
             var users = Database.Fetch<User>();
 
@@ -354,7 +368,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
             InMemoryUsers[0].Age = 99;
 
             Database.UpdateWhere(InMemoryUsers[0], "Name = @0", InMemoryUsers[0].Name);
-            
+
             var users = Database.SingleById<User>(InMemoryUsers[0].UserId);
 
             Assert.AreEqual(99, users.Age);
@@ -383,14 +397,14 @@ namespace NPoco.Tests.FluentTests.QueryTests
         public void SelectStatementDoesNotRenderPropertyNameAsAlias()
         {
             var sqlExpression = new DefaultSqlExpression<UserDecorated>(Database);
-            sqlExpression.Select(x => new {x.IsMale, x.Name});
+            sqlExpression.Select(x => new { x.IsMale, x.Name });
             var selectStatement = sqlExpression.Context.ToSelectStatement();
 
             string expected = string.Format("SELECT {0}, {1} \nFROM {2}",
                                             TestDatabase.DbType.EscapeSqlIdentifier("is_male"),
                                             TestDatabase.DbType.EscapeSqlIdentifier("Name"),
                                             TestDatabase.DbType.EscapeTableName("Users"));
-                
+
             Assert.AreEqual(expected, selectStatement);
         }
 
