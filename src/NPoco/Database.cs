@@ -949,6 +949,72 @@ namespace NPoco
             return Fetch<T>("");
         }
 
+        public int Count(Type type, string sql, params object[] args)
+        {
+            return Count(type, new Sql(sql, args));
+        }
+
+        public int Count(Type type, Sql sql)
+        {
+            string countSql = sql.SQL;
+            object[] arguments = sql.Arguments;
+            
+            if (EnableAutoSelect && string.IsNullOrEmpty(countSql))
+            {
+                var pd = PocoDataFactory.ForType(type);
+                countSql = $"SELECT COUNT(*) FROM {pd.TableInfo.TableName}";
+                return ExecuteScalar<int>(countSql, arguments);
+            }
+            else if (!string.IsNullOrEmpty(countSql))
+            {
+                // 处理带不带 WHERE 的条件：如果 SQL 既没有 SELECT 也没有 FROM，也没有 WHERE，但它不是空的，可能是纯条件，添加 WHERE
+                var trimmedSql = countSql.TrimStart();
+                if (EnableAutoSelect && 
+                    !trimmedSql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase) && 
+                    !trimmedSql.StartsWith("FROM", StringComparison.OrdinalIgnoreCase) && 
+                    !trimmedSql.StartsWith("WHERE", StringComparison.OrdinalIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(trimmedSql))
+                {
+                    countSql = "WHERE " + countSql;
+                }
+                
+                // 先应用 AutoSelectHelper 来处理 SQL
+                var fullSql = AutoSelectHelper.AddSelectClause(this, type, countSql);
+                
+                // 然后尝试使用 PagingHelper.SplitSQL 来生成正确的 count 查询
+                SQLParts parts;
+                if (PagingHelper.SplitSQL(fullSql, out parts))
+                {
+                    return ExecuteScalar<int>(parts.sqlCount, arguments);
+                }
+                
+                // 如果不能拆分，仍然使用子查询方式
+                return ExecuteScalar<int>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments);
+            }
+            
+            return ExecuteScalar<int>(countSql, arguments);
+        }
+
+        public int Count(Type type)
+        {
+            return Count(type, "");
+        }
+
+        public bool Exists(Type type, string sql, params object[] args)
+        {
+            return Exists(type, new Sql(sql, args));
+        }
+
+        public bool Exists(Type type, Sql sql)
+        {
+            return Count(type, sql) > 0;
+        }
+
+        public bool Exists(Type type)
+        {
+            return Exists(type, "");
+        }
+
         public int Count<T>(string sql, params object[] args)
         {
             return Count<T>(new Sql(sql, args));
@@ -957,11 +1023,41 @@ namespace NPoco
         public int Count<T>(Sql sql)
         {
             string countSql = sql.SQL;
+            object[] arguments = sql.Arguments;
+            
             if (EnableAutoSelect && string.IsNullOrEmpty(countSql))
+            {
                 countSql = $"SELECT COUNT(*) FROM {PocoDataFactory.ForType(typeof(T)).TableInfo.TableName}";
+                return ExecuteScalar<int>(countSql, arguments);
+            }
             else if (!string.IsNullOrEmpty(countSql))
-                countSql = AutoSelectHelper.AddSelectClause(this, typeof(T), sql.SQL);
-            return ExecuteScalar<int>($"SELECT COUNT(*) FROM ({countSql}) AS t", sql.Arguments);
+            {
+                // 处理带不带 WHERE 的条件：如果 SQL 既没有 SELECT 也没有 FROM，也没有 WHERE，但它不是空的，可能是纯条件，添加 WHERE
+                var trimmedSql = countSql.TrimStart();
+                if (EnableAutoSelect && 
+                    !trimmedSql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase) && 
+                    !trimmedSql.StartsWith("FROM", StringComparison.OrdinalIgnoreCase) && 
+                    !trimmedSql.StartsWith("WHERE", StringComparison.OrdinalIgnoreCase) &&
+                    !string.IsNullOrWhiteSpace(trimmedSql))
+                {
+                    countSql = "WHERE " + countSql;
+                }
+                
+                // 先应用 AutoSelectHelper 来处理 SQL
+                var fullSql = AutoSelectHelper.AddSelectClause(this, typeof(T), countSql);
+                
+                // 然后尝试使用 PagingHelper.SplitSQL 来生成正确的 count 查询
+                SQLParts parts;
+                if (PagingHelper.SplitSQL(fullSql, out parts))
+                {
+                    return ExecuteScalar<int>(parts.sqlCount, arguments);
+                }
+                
+                // 如果不能拆分，仍然使用子查询方式
+                return ExecuteScalar<int>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments);
+            }
+            
+            return ExecuteScalar<int>(countSql, arguments);
         }
 
         public int Count<T>()

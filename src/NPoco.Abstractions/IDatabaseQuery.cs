@@ -275,6 +275,21 @@ namespace NPoco
         bool Exists<T>(object primaryKey);
 
         /// <summary>
+        /// Non generic Count which returns count of objects for the given type
+        /// </summary>
+        int Count(Type type, string sql, params object[] args);
+        
+        /// <summary>
+        /// Non generic Count which returns count of objects for the given type
+        /// </summary>
+        int Count(Type type, Sql Sql);
+        
+        /// <summary>
+        /// Non generic Count which returns count of objects for the given type
+        /// </summary>
+        int Count(Type type);
+
+        /// <summary>
         /// Count objects of type T from the database using the sql and parameters specified.
         /// </summary>
         int Count<T>(string sql, params object[] args);
@@ -288,6 +303,21 @@ namespace NPoco
         /// Count all objects of type T from the database using the conventions or configuration on the type T.
         /// </summary>
         int Count<T>();
+
+        /// <summary>
+        /// Non generic Exists which checks if any objects of the given type exist
+        /// </summary>
+        bool Exists(Type type, string sql, params object[] args);
+        
+        /// <summary>
+        /// Non generic Exists which checks if any objects of the given type exist
+        /// </summary>
+        bool Exists(Type type, Sql Sql);
+        
+        /// <summary>
+        /// Non generic Exists which checks if any objects of the given type exist
+        /// </summary>
+        bool Exists(Type type);
 
         /// <summary>
         /// Checks if any objects of type T exist using the sql and parameters specified.

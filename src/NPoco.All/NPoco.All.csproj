@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>An extremely easy to use Micro-ORM supporting Sql Server, MySQL, PostgreSQL, Oracle, Sqlite, SqlCE. This package includes all NPoco components.</Description>
+    <VersionPrefix>6.2.2</VersionPrefix>
+    <TargetFrameworks>net462;netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
+    <AssemblyName>NPoco.All</AssemblyName>
+    <PackageId>Well.NPoco.All</PackageId>
+    <Authors>Adam Schröder,well</Authors>
+    <PackageTags>orm;sql;micro-orm;database;mvc</PackageTags>
+    <PackageProjectUrl>https://github.com/tozwei/NPoco</PackageProjectUrl>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <IncludeBuildOutput>true</IncludeBuildOutput>
+    <NuspecFile>$(MSBuildThisFileDirectory)Well.NPoco.All.nuspec</NuspecFile>
+    <NuspecBasePath>$(MSBuildThisFileDirectory)</NuspecBasePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NPoco\NPoco.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\NPoco.Abstractions\NPoco.Abstractions.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\NPoco.SqlServer\NPoco.SqlServer.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\NPoco.SqlServer.SystemData\NPoco.SqlServer.SystemData.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\NPoco.JsonNet\NPoco.JsonNet.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

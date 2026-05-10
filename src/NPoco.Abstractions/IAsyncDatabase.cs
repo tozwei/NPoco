@@ -307,6 +307,22 @@ namespace NPoco
         Task<(List<T1>, List<T2>, List<T3>, List<T4>)> FetchMultipleAsync<T1, T2, T3, T4>(Sql sql, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Non generic Count which returns count of objects for the given type
+        /// </summary>
+        Task<int> CountAsync(Type type, string sql, CancellationToken cancellationToken = default);
+        Task<int> CountAsync(Type type, string sql, object[] args, CancellationToken cancellationToken = default);
+        
+        /// <summary>
+        /// Non generic Count which returns count of objects for the given type
+        /// </summary>
+        Task<int> CountAsync(Type type, Sql sql, CancellationToken cancellationToken = default);
+        
+        /// <summary>
+        /// Non generic Count which returns count of objects for the given type
+        /// </summary>
+        Task<int> CountAsync(Type type, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Count objects of type T from the database using the sql and parameters specified.
         /// </summary>
         Task<int> CountAsync<T>(string sql, CancellationToken cancellationToken = default);
@@ -321,6 +337,22 @@ namespace NPoco
         /// Count all objects of type T from the database.
         /// </summary>
         Task<int> CountAsync<T>(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Non generic Exists which checks if any objects of the given type exist
+        /// </summary>
+        Task<bool> ExistsAsync(Type type, string sql, CancellationToken cancellationToken = default);
+        Task<bool> ExistsAsync(Type type, string sql, object[] args, CancellationToken cancellationToken = default);
+        
+        /// <summary>
+        /// Non generic Exists which checks if any objects of the given type exist
+        /// </summary>
+        Task<bool> ExistsAsync(Type type, Sql sql, CancellationToken cancellationToken = default);
+        
+        /// <summary>
+        /// Non generic Exists which checks if any objects of the given type exist
+        /// </summary>
+        Task<bool> ExistsAsync(Type type, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Checks if any objects of type T exist using the sql and parameters specified.
