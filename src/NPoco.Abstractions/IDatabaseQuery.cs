@@ -273,6 +273,36 @@ namespace NPoco
         /// Checks if the POCO of type T exists by using the primary key value
         /// </summary>
         bool Exists<T>(object primaryKey);
+
+        /// <summary>
+        /// Count objects of type T from the database using the sql and parameters specified.
+        /// </summary>
+        int Count<T>(string sql, params object[] args);
+
+        /// <summary>
+        /// Count objects of type T from the database using the sql and parameters specified.
+        /// </summary>
+        int Count<T>(Sql sql);
+
+        /// <summary>
+        /// Count all objects of type T from the database using the conventions or configuration on the type T.
+        /// </summary>
+        int Count<T>();
+
+        /// <summary>
+        /// Checks if any objects of type T exist using the sql and parameters specified.
+        /// </summary>
+        bool Exists<T>(string sql, params object[] args);
+
+        /// <summary>
+        /// Checks if any objects of type T exist using the sql and parameters specified.
+        /// </summary>
+        bool Exists<T>(Sql sql);
+
+        /// <summary>
+        /// Checks if any objects of type T exist using the conventions or configuration on the type T.
+        /// </summary>
+        bool Exists<T>();
         
         /// <summary>
         /// Fetches multiple result sets into the one object.

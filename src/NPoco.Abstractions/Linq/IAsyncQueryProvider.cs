@@ -82,7 +82,7 @@ namespace NPoco.Linq
 
     public interface IQueryProvider<T> : IQueryResultProvider<T>
     {
-        IQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression);
+        IQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression);
         IQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression);
         IQueryProvider<T> WhereSql(string sql, params object[] args);
         IQueryProvider<T> WhereSql(Sql sql);
@@ -98,7 +98,7 @@ namespace NPoco.Linq
 
     public interface IAsyncQueryProvider<T> : IAsyncQueryResultProvider<T>
     {
-        IAsyncQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression);
+        IAsyncQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression);
         IAsyncQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression);
         IAsyncQueryProvider<T> WhereSql(string sql, params object[] args);
         IAsyncQueryProvider<T> WhereSql(Sql sql);

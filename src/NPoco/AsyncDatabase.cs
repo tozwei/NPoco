@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Linq.Expressions;
 using NPoco.Expressions;
 using System;
@@ -377,7 +377,7 @@ namespace NPoco
 
         private Sql GetExistsSql<T>(object primaryKeyOrPoco, bool isPoco)
         {
-            var index = 0;
+            var index = 0; 
             var pd = PocoDataFactory.ForType(typeof(T));
             var primaryKeyValuePairs = GetPrimaryKeyValues(this, pd, pd.TableInfo.PrimaryKey, primaryKeyOrPoco, isPoco);
             var sql = string.Format(DatabaseType.GetExistsSql(), DatabaseType.EscapeTableName(pd.TableInfo.TableName), BuildPrimaryKeySql(this, primaryKeyValuePairs, ref index));
@@ -644,6 +644,52 @@ namespace NPoco
         {
             if (KeepConnectionAlive) return;
             await CloseSharedConnectionAsync();
+        }
+
+        public Task<int> CountAsync<T>(string sql, CancellationToken cancellationToken = default)
+        {
+            return CountAsync<T>(sql, [], cancellationToken);
+        }
+
+        public Task<int> CountAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default)
+        {
+            return CountAsync<T>(new Sql(sql, args), cancellationToken);
+        }
+
+        public Task<int> CountAsync<T>(Sql sql, CancellationToken cancellationToken = default)
+        {
+            string countSql = sql.SQL;
+            if (EnableAutoSelect && string.IsNullOrEmpty(countSql))
+                countSql = $"SELECT COUNT(*) FROM {PocoDataFactory.ForType(typeof(T)).TableInfo.TableName}";
+            else if (!string.IsNullOrEmpty(countSql))
+                countSql = AutoSelectHelper.AddSelectClause(this, typeof(T), sql.SQL);
+            return ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM ({countSql}) AS t", sql.Arguments, cancellationToken);
+        }
+
+        public Task<int> CountAsync<T>(CancellationToken cancellationToken = default)
+        {
+            return CountAsync<T>("", cancellationToken);
+        }
+
+        public Task<bool> ExistsAsync<T>(string sql, CancellationToken cancellationToken = default)
+        {
+            return ExistsAsync<T>(sql, [], cancellationToken);
+        }
+
+        public Task<bool> ExistsAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default)
+        {
+            return ExistsAsync<T>(new Sql(sql, args), cancellationToken);
+        }
+
+        public async Task<bool> ExistsAsync<T>(Sql sql, CancellationToken cancellationToken = default)
+        {
+            var count = await CountAsync<T>(sql, cancellationToken).ConfigureAwait(false);
+            return count > 0;
+        }
+
+        public Task<bool> ExistsAsync<T>(CancellationToken cancellationToken = default)
+        {
+            return ExistsAsync<T>("", cancellationToken);
         }
     }
 }

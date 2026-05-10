@@ -12,9 +12,13 @@ namespace NPoco.Linq
         {
         }
 
+        public new IUpdateQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
+        {
+            return (IUpdateQueryProvider<T>)base.WhereIf(condition, whereExpression);
+        }
         public new IUpdateQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)
         {
-            return (IUpdateQueryProvider<T>) base.Where(whereExpression);
+            return (IUpdateQueryProvider<T>)base.Where(whereExpression);
         }
 
         public new IUpdateQueryProvider<T> ExcludeDefaults()
@@ -52,6 +56,15 @@ namespace NPoco.Linq
         {
             _database = database;
             _sqlExpression = database.DatabaseType.ExpressionVisitor<T>(database, database.PocoDataFactory.ForType(typeof(T)), false);
+        }
+
+        public IAsyncUpdateQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
+        {
+            if (condition)
+            {
+                _sqlExpression = _sqlExpression.Where(whereExpression);
+            }
+            return this;
         }
 
         public IAsyncUpdateQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)

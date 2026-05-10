@@ -949,6 +949,41 @@ namespace NPoco
             return Fetch<T>("");
         }
 
+        public int Count<T>(string sql, params object[] args)
+        {
+            return Count<T>(new Sql(sql, args));
+        }
+
+        public int Count<T>(Sql sql)
+        {
+            string countSql = sql.SQL;
+            if (EnableAutoSelect && string.IsNullOrEmpty(countSql))
+                countSql = $"SELECT COUNT(*) FROM {PocoDataFactory.ForType(typeof(T)).TableInfo.TableName}";
+            else if (!string.IsNullOrEmpty(countSql))
+                countSql = AutoSelectHelper.AddSelectClause(this, typeof(T), sql.SQL);
+            return ExecuteScalar<int>($"SELECT COUNT(*) FROM ({countSql}) AS t", sql.Arguments);
+        }
+
+        public int Count<T>()
+        {
+            return Count<T>("");
+        }
+
+        public bool Exists<T>(string sql, params object[] args)
+        {
+            return Exists<T>(new Sql(sql, args));
+        }
+
+        public bool Exists<T>(Sql sql)
+        {
+            return Count<T>(sql) > 0;
+        }
+
+        public bool Exists<T>()
+        {
+            return Exists<T>("");
+        }
+
         public void BuildPageQueries<T>(long skip, long take, string sql, ref object[] args, out string sqlCount, out string sqlPage)
         {
             // Add auto select clause

@@ -305,5 +305,37 @@ namespace NPoco
         /// Fetches multiple result sets into the one Tuple.
         /// </summary>
         Task<(List<T1>, List<T2>, List<T3>, List<T4>)> FetchMultipleAsync<T1, T2, T3, T4>(Sql sql, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Count objects of type T from the database using the sql and parameters specified.
+        /// </summary>
+        Task<int> CountAsync<T>(string sql, CancellationToken cancellationToken = default);
+        Task<int> CountAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Count objects of type T from the database using the sql and parameters specified.
+        /// </summary>
+        Task<int> CountAsync<T>(Sql sql, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Count all objects of type T from the database.
+        /// </summary>
+        Task<int> CountAsync<T>(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Checks if any objects of type T exist using the sql and parameters specified.
+        /// </summary>
+        Task<bool> ExistsAsync<T>(string sql, CancellationToken cancellationToken = default);
+        Task<bool> ExistsAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Checks if any objects of type T exist using the sql and parameters specified.
+        /// </summary>
+        Task<bool> ExistsAsync<T>(Sql sql, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Checks if any objects of type T exist.
+        /// </summary>
+        Task<bool> ExistsAsync<T>(CancellationToken cancellationToken = default);
     }
 }

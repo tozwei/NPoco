@@ -40,7 +40,7 @@ namespace NPoco.Expressions
         ISqlExpression<T> Where(Expression<Func<T, bool>> predicate);
         ISqlExpression<T> Where(string sqlFilter, params object[] filterParams);
 
-        ISqlExpression<T> WhereIf(bool isWhere, Expression<Func<T, bool>> predicate);
+        ISqlExpression<T> WhereIf(bool condition, Expression<Func<T, bool>> predicate);
 
 
         public interface ISqlExpressionContext

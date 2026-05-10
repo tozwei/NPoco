@@ -258,9 +258,9 @@ namespace NPoco.Linq
             return ExecuteQueryAsync(sql, cancellationToken).Select(projectionExpression.Compile()).ToListAsync(cancellationToken).AsTask();
         }
 
-        public IAsyncQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression)
+        public IAsyncQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
         {
-            if (isWhere)
+            if (condition)
             { 
                 _sqlExpression = _sqlExpression.Where(whereExpression);
             }
@@ -710,9 +710,9 @@ namespace NPoco.Linq
         }
 
 
-        public new IQueryProvider<T> WhereIf(bool isWhere, Expression<Func<T, bool>> whereExpression)
+        public new IQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
         {
-            if (isWhere)
+            if (condition)
             {
                 return Where(whereExpression);
             }
