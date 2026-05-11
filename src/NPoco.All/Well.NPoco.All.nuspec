@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Well.NPoco.All</id>
-    <version>6.2.2</version>
+    <version>6.2.3</version>
     <title>Well.NPoco.All</title>
     <authors>Adam Schröder</authors>
     <owners>Adam Schröder</owners>
