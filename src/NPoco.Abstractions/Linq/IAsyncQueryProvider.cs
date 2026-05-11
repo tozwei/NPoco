@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -94,6 +94,8 @@ namespace NPoco.Linq
         IQueryProvider<T> Limit(int rows);
         IQueryProvider<T> Limit(int skip, int rows);
         IQueryProvider<T> From(QueryBuilder<T> builder);
+        IQueryProvider<T> Select<TResult>(Expression expression);
+        IQueryProvider<T> Select<TResult>(Expression<Func<T, TResult>> expression);
     }
 
     public interface IAsyncQueryProvider<T> : IAsyncQueryResultProvider<T>
@@ -110,6 +112,8 @@ namespace NPoco.Linq
         IAsyncQueryProvider<T> Limit(int rows);
         IAsyncQueryProvider<T> Limit(int skip, int rows);
         IAsyncQueryProvider<T> From(QueryBuilder<T> builder);
+        IAsyncQueryProvider<T> Select<TResult>(Expression expression);
+        IAsyncQueryProvider<T> Select<TResult>(Expression<Func<T, TResult>> expression);
     }
 
     public interface IAsyncQueryProviderWithIncludes<T> : IAsyncQueryProvider<T>

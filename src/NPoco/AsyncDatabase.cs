@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+using System.Collections;
 using System.Linq.Expressions;
 using NPoco.Expressions;
 using System;
@@ -668,7 +668,6 @@ namespace NPoco
             }
             else if (!string.IsNullOrEmpty(countSql))
             {
-                // 处理带不带 WHERE 的条件：如果 SQL 既没有 SELECT 也没有 FROM，也没有 WHERE，但它不是空的，可能是纯条件，添加 WHERE
                 var trimmedSql = countSql.TrimStart();
                 if (EnableAutoSelect && 
                     !trimmedSql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase) && 
@@ -679,17 +678,14 @@ namespace NPoco
                     countSql = "WHERE " + countSql;
                 }
                 
-                // 先应用 AutoSelectHelper 来处理 SQL
                 var fullSql = AutoSelectHelper.AddSelectClause(this, type, countSql);
                 
-                // 然后尝试使用 PagingHelper.SplitSQL 来生成正确的 count 查询
                 SQLParts parts;
                 if (PagingHelper.SplitSQL(fullSql, out parts))
                 {
                     return ExecuteScalarAsync<int>(parts.sqlCount, arguments, cancellationToken);
                 }
                 
-                // 如果不能拆分，仍然使用子查询方式
                 return ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments, cancellationToken);
             }
             
@@ -744,7 +740,6 @@ namespace NPoco
             }
             else if (!string.IsNullOrEmpty(countSql))
             {
-                // 处理带不带 WHERE 的条件：如果 SQL 既没有 SELECT 也没有 FROM，也没有 WHERE，但它不是空的，可能是纯条件，添加 WHERE
                 var trimmedSql = countSql.TrimStart();
                 if (EnableAutoSelect && 
                     !trimmedSql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase) && 
@@ -755,17 +750,14 @@ namespace NPoco
                     countSql = "WHERE " + countSql;
                 }
                 
-                // 先应用 AutoSelectHelper 来处理 SQL
                 var fullSql = AutoSelectHelper.AddSelectClause(this, typeof(T), countSql);
                 
-                // 然后尝试使用 PagingHelper.SplitSQL 来生成正确的 count 查询
                 SQLParts parts;
                 if (PagingHelper.SplitSQL(fullSql, out parts))
                 {
                     return ExecuteScalarAsync<int>(parts.sqlCount, arguments, cancellationToken);
                 }
                 
-                // 如果不能拆分，仍然使用子查询方式
                 return ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments, cancellationToken);
             }
             

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>An extremely easy to use Micro-ORM supporting Sql Server, MySQL, PostgreSQL, Oracle, Sqlite, SqlCE.</Description>
@@ -8,9 +8,8 @@
     <VersionPrefix>6.2.2</VersionPrefix>
     <Authors>Adam Schröder,well</Authors>
     <PackageTags>orm;sql;micro-orm;database;mvc</PackageTags>
-    <!--<PackageProjectUrl>https://github.com/schotime/NPoco</PackageProjectUrl>-->
-	<PackageProjectUrl>https://github.com/tozwei/NPoco</PackageProjectUrl>
-	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/tozwei/NPoco</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReleaseNotes>https://github.com/schotime/NPoco/wiki/Release-Notes</PackageReleaseNotes>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -22,15 +21,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Condition="'$(TargetFramework)' == 'net462' " Include="System.ValueTuple" Version="4.5.0" />
-	<PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0' " Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
-	<PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" Include="System.Linq.Async" Version="5.0.0" />
-	<PackageReference Condition="'$(TargetFramework)' == 'net8.0'" Include="System.Linq.Async" Version="6.0.1" />
+    <PackageReference Condition="'$(TargetFramework)' == 'net462' " Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0' " Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
+    <PackageReference Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" Include="System.Linq.Async" Version="5.0.0" />
+    <PackageReference Condition="'$(TargetFramework)' == 'net8.0'" Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
-	<None Include="LICENSE.txt" Pack="true" PackagePath="" />
+    <None Include="LICENSE.txt" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>

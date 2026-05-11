@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -380,6 +380,18 @@ namespace NPoco.Linq
                 }
             }
 
+            return this;
+        }
+
+        public IAsyncQueryProvider<T> Select<TResult>(Expression expression)
+        {
+            _sqlExpression = _sqlExpression.Select<TResult>(Expression.Lambda<Func<T, TResult>>(expression, Expression.Parameter(typeof(T), "x")));
+            return this;
+        }
+
+        public IAsyncQueryProvider<T> Select<TResult>(Expression<Func<T, TResult>> expression)
+        {
+            _sqlExpression = _sqlExpression.Select(expression);
             return this;
         }
 
@@ -772,6 +784,16 @@ namespace NPoco.Linq
         public new IQueryProvider<T> From(QueryBuilder<T> builder)
         {
             return (IQueryProvider<T>)base.From(builder);
+        }
+
+        public new IQueryProvider<T> Select<TResult>(Expression expression)
+        {
+            return (IQueryProvider<T>)base.Select<TResult>(expression);
+        }
+
+        public new IQueryProvider<T> Select<TResult>(Expression<Func<T, TResult>> expression)
+        {
+            return (IQueryProvider<T>)base.Select<TResult>(expression);
         }
 
     }

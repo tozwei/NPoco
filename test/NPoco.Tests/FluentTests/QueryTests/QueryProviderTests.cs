@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -616,6 +616,53 @@ namespace NPoco.Tests.FluentTests.QueryTests
             Assert.True(sql.SQL.Contains("(nolock)"));
             Assert.True(sql.SQL.Contains("with (nolock)"));
             Assert.AreEqual(15, users.ToList().Count);
+        }
+
+        [Test]
+        public void QueryWithSelectExpression()
+        {
+            var users = Database.Query<User>()
+                .Select(x => new { x.UserId, x.Name })
+                .ToList();
+
+            Assert.AreEqual(15, users.Count);
+            Assert.AreEqual(1, users[0].UserId);
+            Assert.AreEqual("Name1", users[0].Name);
+        }
+
+        [Test]
+        public void QueryWithSelectExpressionAndWhere()
+        {
+            var users = Database.Query<User>()
+                .Where(x => x.UserId > 10)
+                .Select(x => new { x.UserId, x.Age })
+                .ToList();
+
+            Assert.AreEqual(5, users.Count);
+            Assert.Greater(users[0].UserId, 10);
+        }
+
+        [Test]
+        public void QueryWithSelectOnFullEntity()
+        {
+            var users = Database.Query<User>()
+                .Select(x => x)
+                .ToList();
+
+            Assert.AreEqual(15, users.Count);
+            Assert.AreEqual(1, users[0].UserId);
+        }
+
+        [Test]
+        public async Task QueryWithSelectExpressionAsync()
+        {
+            var users = await Database.Query<User>()
+                .Select(x => new { x.UserId, x.Name })
+                .ToListAsync();
+
+            Assert.AreEqual(15, users.Count);
+            Assert.AreEqual(1, users[0].UserId);
+            Assert.AreEqual("Name1", users[0].Name);
         }
 
         //[Test]
