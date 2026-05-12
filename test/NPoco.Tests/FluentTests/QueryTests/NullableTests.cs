@@ -121,7 +121,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
             var sqlExpression = new DefaultSqlExpression<NullableProperty>(Database);
             sqlExpression.WhereIf(false, x => x.Age != null);
             var whereStatement = sqlExpression.Context.ToWhereStatement();
-            string expected = string.Format("WHERE ({0} is not null)", escapedAgeIdentifier);
+            string expected = "";
             Assert.AreEqual(expected, whereStatement);
         }
 
