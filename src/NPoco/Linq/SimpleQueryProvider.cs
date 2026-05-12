@@ -1,11 +1,13 @@
+using NPoco.Expressions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using NPoco.Expressions;
 
 namespace NPoco.Linq
 {
@@ -28,9 +30,20 @@ namespace NPoco.Linq
             _sqlExpression = _sqlExpression.Where(whereExpression);
         }
 
+
+        public AsyncQueryProvider(Database database, ISqlExpression<T> sqlExpression)
+        {
+            _database = database;
+            _pocoData = database.PocoDataFactory.ForType(typeof(T));
+            _pocoData.IsQueryGenerated = true;
+            _sqlExpression = database.DatabaseType.ExpressionVisitor<T>(database, _pocoData, true);
+            _buildComplexSql = new ComplexSqlBuilder<T>(database, _pocoData, _sqlExpression, _joinSqlExpressions);
+            _sqlExpression = sqlExpression;
+        }
+
         ISqlExpression<T> ISimpleQueryProviderExpression<T>.AtlasSqlExpression { get { return _sqlExpression; } }
 
-        public AsyncQueryProvider(Database database) : this(database, null)
+        public AsyncQueryProvider(Database database) : this(database, whereExpression: null)
         {
         }
 
@@ -261,7 +274,7 @@ namespace NPoco.Linq
         public IAsyncQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
         {
             if (condition)
-            { 
+            {
                 _sqlExpression = _sqlExpression.Where(whereExpression);
             }
             return this;
@@ -383,17 +396,6 @@ namespace NPoco.Linq
             return this;
         }
 
-        public IAsyncQueryProvider<T> Select<TResult>(Expression expression)
-        {
-            _sqlExpression = _sqlExpression.Select<TResult>(Expression.Lambda<Func<T, TResult>>(expression, Expression.Parameter(typeof(T), "x")));
-            return this;
-        }
-
-        public IAsyncQueryProvider<T> Select<TResult>(Expression<Func<T, TResult>> expression)
-        {
-            _sqlExpression = _sqlExpression.Select(expression);
-            return this;
-        }
 
         public List<dynamic> ToDynamicList()
         {
@@ -434,7 +436,7 @@ namespace NPoco.Linq
         {
         }
 
-        public QueryProvider(Database database) : base(database, null)
+        public QueryProvider(Database database) : base(database, whereExpression: null)
         {
         }
 
@@ -785,16 +787,5 @@ namespace NPoco.Linq
         {
             return (IQueryProvider<T>)base.From(builder);
         }
-
-        public new IQueryProvider<T> Select<TResult>(Expression expression)
-        {
-            return (IQueryProvider<T>)base.Select<TResult>(expression);
-        }
-
-        public new IQueryProvider<T> Select<TResult>(Expression<Func<T, TResult>> expression)
-        {
-            return (IQueryProvider<T>)base.Select<TResult>(expression);
-        }
-
     }
 }
