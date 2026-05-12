@@ -646,17 +646,17 @@ namespace NPoco
             await CloseSharedConnectionAsync();
         }
 
-        public Task<int> CountAsync(Type type, string sql, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync(Type type, string sql, CancellationToken cancellationToken = default)
         {
             return CountAsync(type, sql, [], cancellationToken);
         }
 
-        public Task<int> CountAsync(Type type, string sql, object[] args, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync(Type type, string sql, object[] args, CancellationToken cancellationToken = default)
         {
             return CountAsync(type, new Sql(sql, args), cancellationToken);
         }
 
-        public Task<int> CountAsync(Type type, Sql sql, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync(Type type, Sql sql, CancellationToken cancellationToken = default)
         {
             string countSql = sql.SQL;
             object[] arguments = sql.Arguments;
@@ -664,7 +664,7 @@ namespace NPoco
             if (EnableAutoSelect && string.IsNullOrEmpty(countSql))
             {
                 countSql = $"SELECT COUNT(*) FROM {PocoDataFactory.ForType(type).TableInfo.TableName}";
-                return ExecuteScalarAsync<int>(countSql, arguments, cancellationToken);
+                return ExecuteScalarAsync<long>(countSql, arguments, cancellationToken);
             }
             else if (!string.IsNullOrEmpty(countSql))
             {
@@ -683,16 +683,16 @@ namespace NPoco
                 SQLParts parts;
                 if (PagingHelper.SplitSQL(fullSql, out parts))
                 {
-                    return ExecuteScalarAsync<int>(parts.sqlCount, arguments, cancellationToken);
+                    return ExecuteScalarAsync<long>(parts.sqlCount, arguments, cancellationToken);
                 }
                 
-                return ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments, cancellationToken);
+                return ExecuteScalarAsync<long>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments, cancellationToken);
             }
             
-            return ExecuteScalarAsync<int>(countSql, arguments, cancellationToken);
+            return ExecuteScalarAsync<long>(countSql, arguments, cancellationToken);
         }
 
-        public Task<int> CountAsync(Type type, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync(Type type, CancellationToken cancellationToken = default)
         {
             return CountAsync(type, "", cancellationToken);
         }
@@ -718,17 +718,17 @@ namespace NPoco
             return ExistsAsync(type, "", cancellationToken);
         }
 
-        public Task<int> CountAsync<T>(string sql, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync<T>(string sql, CancellationToken cancellationToken = default)
         {
             return CountAsync<T>(sql, [], cancellationToken);
         }
 
-        public Task<int> CountAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default)
         {
             return CountAsync<T>(new Sql(sql, args), cancellationToken);
         }
 
-        public Task<int> CountAsync<T>(Sql sql, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync<T>(Sql sql, CancellationToken cancellationToken = default)
         {
             string countSql = sql.SQL;
             object[] arguments = sql.Arguments;
@@ -736,7 +736,7 @@ namespace NPoco
             if (EnableAutoSelect && string.IsNullOrEmpty(countSql))
             {
                 countSql = $"SELECT COUNT(*) FROM {PocoDataFactory.ForType(typeof(T)).TableInfo.TableName}";
-                return ExecuteScalarAsync<int>(countSql, arguments, cancellationToken);
+                return ExecuteScalarAsync<long>(countSql, arguments, cancellationToken);
             }
             else if (!string.IsNullOrEmpty(countSql))
             {
@@ -755,16 +755,16 @@ namespace NPoco
                 SQLParts parts;
                 if (PagingHelper.SplitSQL(fullSql, out parts))
                 {
-                    return ExecuteScalarAsync<int>(parts.sqlCount, arguments, cancellationToken);
+                    return ExecuteScalarAsync<long>(parts.sqlCount, arguments, cancellationToken);
                 }
                 
-                return ExecuteScalarAsync<int>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments, cancellationToken);
+                return ExecuteScalarAsync<long>($"SELECT COUNT(*) FROM ({fullSql}) AS t", arguments, cancellationToken);
             }
             
-            return ExecuteScalarAsync<int>(countSql, arguments, cancellationToken);
+            return ExecuteScalarAsync<long>(countSql, arguments, cancellationToken);
         }
 
-        public Task<int> CountAsync<T>(CancellationToken cancellationToken = default)
+        public Task<long> CountAsync<T>(CancellationToken cancellationToken = default)
         {
             return CountAsync<T>("", cancellationToken);
         }

@@ -183,16 +183,16 @@ namespace NPoco.Linq
             return ToEnumerable(cancellationToken).SingleAsync(cancellationToken).AsTask();
         }
 
-        public Task<int> Count(CancellationToken cancellationToken = default)
+        public Task<long> Count(CancellationToken cancellationToken = default)
         {
             return Count(null, cancellationToken);
         }
 
-        public Task<int> Count(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
+        public Task<long> Count(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
         {
             AddWhere(whereExpression);
             var sql = _buildComplexSql.BuildJoin(_database, _sqlExpression, _joinSqlExpressions.Values.ToList(), null, true, false);
-            return _database.ExecuteScalarAsync<int>(sql, cancellationToken);
+            return _database.ExecuteScalarAsync<long>(sql, cancellationToken);
         }
 
         public Task<bool> Any(CancellationToken cancellationToken = default)
@@ -485,16 +485,16 @@ namespace NPoco.Linq
             return ToEnumerable().Single();
         }
 
-        public new int Count()
+        public new long Count()
         {
             return Count(null);
         }
 
-        public new int Count(Expression<Func<T, bool>> whereExpression)
+        public new long Count(Expression<Func<T, bool>> whereExpression)
         {
             AddWhere(whereExpression);
             var sql = _buildComplexSql.BuildJoin(_database, _sqlExpression, _joinSqlExpressions.Values.ToList(), null, true, false);
-            return _database.ExecuteScalar<int>(sql);
+            return _database.ExecuteScalar<long>(sql);
         }
 
         public new bool Any()
@@ -648,12 +648,12 @@ namespace NPoco.Linq
             return base.Single(whereExpression, cancellationToken);
         }
 
-        public Task<int> CountAsync(CancellationToken cancellationToken = default)
+        public Task<long> CountAsync(CancellationToken cancellationToken = default)
         {
             return base.Count(cancellationToken);
         }
 
-        public Task<int> CountAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
+        public Task<long> CountAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
         {
             return base.Count(whereExpression, cancellationToken);
         }

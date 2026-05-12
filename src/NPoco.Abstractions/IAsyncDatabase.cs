@@ -309,34 +309,34 @@ namespace NPoco
         /// <summary>
         /// Non generic Count which returns count of objects for the given type
         /// </summary>
-        Task<int> CountAsync(Type type, string sql, CancellationToken cancellationToken = default);
-        Task<int> CountAsync(Type type, string sql, object[] args, CancellationToken cancellationToken = default);
+        Task<long> CountAsync(Type type, string sql, CancellationToken cancellationToken = default);
+        Task<long> CountAsync(Type type, string sql, object[] args, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Non generic Count which returns count of objects for the given type
         /// </summary>
-        Task<int> CountAsync(Type type, Sql sql, CancellationToken cancellationToken = default);
+        Task<long> CountAsync(Type type, Sql sql, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Non generic Count which returns count of objects for the given type
         /// </summary>
-        Task<int> CountAsync(Type type, CancellationToken cancellationToken = default);
+        Task<long> CountAsync(Type type, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Count objects of type T from the database using the sql and parameters specified.
         /// </summary>
-        Task<int> CountAsync<T>(string sql, CancellationToken cancellationToken = default);
-        Task<int> CountAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default);
+        Task<long> CountAsync<T>(string sql, CancellationToken cancellationToken = default);
+        Task<long> CountAsync<T>(string sql, object[] args, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Count objects of type T from the database using the sql and parameters specified.
         /// </summary>
-        Task<int> CountAsync<T>(Sql sql, CancellationToken cancellationToken = default);
+        Task<long> CountAsync<T>(Sql sql, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Count all objects of type T from the database.
         /// </summary>
-        Task<int> CountAsync<T>(CancellationToken cancellationToken = default);
+        Task<long> CountAsync<T>(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Non generic Exists which checks if any objects of the given type exist

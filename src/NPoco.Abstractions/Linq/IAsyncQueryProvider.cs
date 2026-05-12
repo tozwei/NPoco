@@ -23,8 +23,8 @@ namespace NPoco.Linq
         Task<T?> SingleOrDefault(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<T> Single(CancellationToken cancellationToken = default);
         Task<T> Single(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
-        Task<int> Count(CancellationToken cancellationToken = default);
-        Task<int> Count(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
+        Task<long> Count(CancellationToken cancellationToken = default);
+        Task<long> Count(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<bool> Any(CancellationToken cancellationToken = default);
         Task<bool> Any(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<Page<T>> ToPage(long page, long pageSize, CancellationToken cancellationToken = default);
@@ -44,8 +44,8 @@ namespace NPoco.Linq
         T? SingleOrDefault(Expression<Func<T, bool>> whereExpression);
         T Single();
         T Single(Expression<Func<T, bool>> whereExpression);
-        int Count();
-        int Count(Expression<Func<T, bool>> whereExpression);
+        long Count();
+        long Count(Expression<Func<T, bool>> whereExpression);
         bool Any();
         bool Any(Expression<Func<T, bool>> whereExpression);
         List<T> ToList();
@@ -69,8 +69,8 @@ namespace NPoco.Linq
         Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<T> SingleAsync(CancellationToken cancellationToken = default);
         Task<T> SingleAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
-        Task<int> CountAsync(CancellationToken cancellationToken = default);
-        Task<int> CountAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
+        Task<long> CountAsync(CancellationToken cancellationToken = default);
+        Task<long> CountAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<bool> AnyAsync(CancellationToken cancellationToken = default);
         Task<bool> AnyAsync(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
         Task<Page<T>> ToPageAsync(long page, long pageSize, CancellationToken cancellationToken = default);
