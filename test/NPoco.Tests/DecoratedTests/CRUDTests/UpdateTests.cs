@@ -212,10 +212,32 @@ namespace NPoco.Tests.DecoratedTests.CRUDTests
                 .OnlyFields(x => new { x.Suggestion })
                 .Execute(updateData);
 
-            //Database.UpdateMany<UserModel>()
-            //   .WhereIf(true, x => x.Id == 1)
-            //   .OnlyFields(x => new { x.Suggestion })
-            //   .Execute(updateData);
+            Database.Mappers.Remove(myMapper);
+
+            var user = Database.Single<(int, string)>("select userid, name from users where userid = 1");
+
+            Assert.AreEqual(JsonConvert.SerializeObject(updateData.Suggestion), user.Item2);
+        }
+
+        [Test]
+        public void UpdateManyIfWithMapper()
+        {
+            var updateData = new UserModel()
+            {
+                Id = 1,
+                Suggestion = new Dictionary<string, object>()
+                {
+                    {"test", 2}
+                }
+            };
+
+            var myMapper = new MyMapper();
+            Database.Mappers.Add(myMapper);
+
+            Database.UpdateMany<UserModel>()
+               .WhereIf(true, x => x.Id == 1)
+               .OnlyFields(x => new { x.Suggestion })
+               .Execute(updateData);
 
             Database.Mappers.Remove(myMapper);
 

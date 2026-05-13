@@ -106,7 +106,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
 
 
         [Test]
-        public void NullableExpressionNotEqualsNull_ReturnsIsNotNull1()
+        public void NullableExpressionNotEqualsNull_ReturnsIsNotNull_WhereIfTrue()
         {
             var sqlExpression = new DefaultSqlExpression<NullableProperty>(Database);
             sqlExpression.WhereIf(true, x => x.Age != null);
@@ -116,7 +116,7 @@ namespace NPoco.Tests.FluentTests.QueryTests
         }
 
         [Test]
-        public void NullableExpressionNotEqualsNull_ReturnsIsNotNull2()
+        public void NullableExpressionNotEqualsNull_ReturnsIsNotNull_WhereIfFalse()
         {
             var sqlExpression = new DefaultSqlExpression<NullableProperty>(Database);
             sqlExpression.WhereIf(false, x => x.Age != null);
