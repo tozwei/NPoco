@@ -14,7 +14,12 @@ namespace NPoco.Linq
 
         public new IUpdateQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)
         {
-            return (IUpdateQueryProvider<T>) base.Where(whereExpression);
+            return (IUpdateQueryProvider<T>)base.Where(whereExpression);
+        }
+
+        public new IUpdateQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
+        {
+            return (IUpdateQueryProvider<T>)base.WhereIf(condition, whereExpression);
         }
 
         public new IUpdateQueryProvider<T> ExcludeDefaults()
@@ -57,6 +62,15 @@ namespace NPoco.Linq
         public IAsyncUpdateQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)
         {
             _sqlExpression = _sqlExpression.Where(whereExpression);
+            return this;
+        }
+
+        public IAsyncUpdateQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
+        {
+            if (condition && whereExpression != null)
+            {
+                _sqlExpression = _sqlExpression.Where(whereExpression);
+            }
             return this;
         }
 

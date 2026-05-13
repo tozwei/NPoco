@@ -212,6 +212,11 @@ namespace NPoco.Tests.DecoratedTests.CRUDTests
                 .OnlyFields(x => new { x.Suggestion })
                 .Execute(updateData);
 
+            //Database.UpdateMany<UserModel>()
+            //   .WhereIf(true, x => x.Id == 1)
+            //   .OnlyFields(x => new { x.Suggestion })
+            //   .Execute(updateData);
+
             Database.Mappers.Remove(myMapper);
 
             var user = Database.Single<(int, string)>("select userid, name from users where userid = 1");

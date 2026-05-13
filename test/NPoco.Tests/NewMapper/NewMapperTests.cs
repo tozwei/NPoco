@@ -242,24 +242,31 @@ select 5 OneId,'Name5' Name, null Items__Value, null Items__Currency /*poco_dual
                 .WhereSql("CREATEDBY.Id in (@list)", new { list = new[] { 1, 3 } })
                 .ToList();
 
-            Database.Query<RecursionUser>()
+            var list1 = Database.Query<RecursionUser>()
                 .UsingAlias("TEST1")
                 .Include(x => x.CreatedBy)
                 .Where(x => x.Id.In(new[] { 2, 3 }))
                 .WhereSql("RU4.Id in (@list)", new { list = new[] { 1, 3 } })
                 .ToList();
 
-            Database.Query<RecursionUser>()
+            var list2 = Database.Query<RecursionUser>()
                 .WhereSql(x => new Sql(string.Format("{0}.Id in (@list)", x.GetAliasFor(z => z)), new { list = new[] { 1, 3 } }))
                 .ToList();
 
-            Database.Query<RecursionUser>()
+            var list3 = Database.Query<RecursionUser>()
                 .Include(x => x.CreatedBy)
                 .WhereSql(x => new Sql(string.Format("{0}.Id in (@list)", x.GetAliasFor(z => z.CreatedBy)), new { list = new[] { 1, 3 } }))
                 .ToList();
 
-            Database.Query<RecursionUser>()
+            var list4 = Database.Query<RecursionUser>()
                 .Include(x => x.CreatedBy)
+                .WhereIf(true, x => x.Id.In(new[] { 2, 3 }))
+                .IncludeSecurity()
+                .ToList();
+
+            var list5 = Database.Query<RecursionUser>()
+                .Include(x => x.CreatedBy)
+                .WhereIf(false, x => x.Id.In(new[] { 2, 3 }))
                 .IncludeSecurity()
                 .ToList();
 

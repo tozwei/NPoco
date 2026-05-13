@@ -11,6 +11,8 @@ namespace NPoco.Linq
     public interface IUpdateQueryProvider<T>
     {
         IUpdateQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression);
+        IUpdateQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression);
+
         IUpdateQueryProvider<T> ExcludeDefaults();
         IUpdateQueryProvider<T> OnlyFields(Expression<Func<T, object>> onlyFields);
         int Execute(T obj);

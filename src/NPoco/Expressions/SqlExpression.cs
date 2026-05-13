@@ -191,6 +191,20 @@ namespace NPoco.Expressions
             return this;
         }
 
+        public virtual ISqlExpression<T> WhereIf(bool condition, Expression<Func<T, bool>> predicate)
+        {
+            if (condition && predicate != null)
+            {
+                And(predicate);
+            }
+            else
+            {
+                whereExpression = string.Empty;
+            }
+
+            return this;
+        }
+
         protected virtual ISqlExpression<T> And(Expression<Func<T, bool>> predicate)
         {
             if (predicate != null)

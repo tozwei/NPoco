@@ -55,7 +55,7 @@ namespace NPoco.Linq
             _listExpression = expression;
             return QueryProviderWithIncludes(expression, null, joinType, joinTableHint);
         }
-        
+
         public IAsyncQueryProviderWithIncludes<T> Include<T2>(JoinType joinType = JoinType.Left, string joinTableHint = "") where T2 : class
         {
             var oneToOneMembers = _database.PocoDataFactory.ForType(typeof(T))
@@ -222,7 +222,7 @@ namespace NPoco.Linq
             var sql = _buildComplexSql.GetSqlForProjection(projectionExpression, false);
             return ExecuteQueryAsync(sql, cancellationToken).Select(projectionExpression.Compile()).ToListAsync(cancellationToken).AsTask();
         }
-        
+
         public async Task<Page<T2>> ToProjectedPage<T2>(Expression<Func<T, T2>> projectionExpression, long page, long pageSize, CancellationToken cancellationToken = default)
         {
             var offset = (page - 1) * pageSize;
@@ -261,6 +261,15 @@ namespace NPoco.Linq
         public IAsyncQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)
         {
             _sqlExpression = _sqlExpression.Where(whereExpression);
+            return this;
+        }
+
+        public IAsyncQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
+        {
+            if (condition && whereExpression != null)
+            {
+                return Where(whereExpression);
+            }
             return this;
         }
 
@@ -563,7 +572,7 @@ namespace NPoco.Linq
         {
             return ExecuteQuery(BuildSql());
         }
-        
+
         private IEnumerable<T> ExecuteQuery(Sql sql)
         {
             return _database.QueryImp(default(T), _listExpression, null, sql, _pocoData);
@@ -669,7 +678,7 @@ namespace NPoco.Linq
         {
             return base.Distinct(cancellationToken);
         }
-        
+
         public new IQueryProvider<T> IncludeMany(Expression<Func<T, IList>> expression, JoinType joinType = JoinType.Left, string joinTableHint = "")
         {
             return (IQueryProvider<T>)base.IncludeMany(expression, joinType, joinTableHint);
@@ -703,6 +712,15 @@ namespace NPoco.Linq
         public new IQueryProvider<T> Where(Expression<Func<T, bool>> whereExpression)
         {
             return (IQueryProvider<T>)base.Where(whereExpression);
+        }
+
+        public new IQueryProvider<T> WhereIf(bool condition, Expression<Func<T, bool>> whereExpression)
+        {
+            if (condition && whereExpression != null)
+            {
+                return Where(whereExpression);
+            }
+            return this;
         }
 
         public new IQueryProvider<T> WhereSql(string sql, params object[] args)
