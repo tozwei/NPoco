@@ -282,14 +282,14 @@ namespace NPoco.Linq
             return WhereSql(sql);
         }
 
-        public IAsyncQueryProvider<T> Limit(int rows)
+        public IAsyncQueryProvider<T> Limit(long rows)
         {
             ThrowIfOneToMany();
             _sqlExpression = _sqlExpression.Limit(rows);
             return this;
         }
 
-        public IAsyncQueryProvider<T> Limit(int skip, int rows)
+        public IAsyncQueryProvider<T> Limit(long skip, long rows)
         {
             ThrowIfOneToMany();
             _sqlExpression = _sqlExpression.Limit(skip, rows);
@@ -740,12 +740,12 @@ namespace NPoco.Linq
             return (IQueryProvider<T>)base.ThenByDescending(column);
         }
 
-        public new IQueryProvider<T> Limit(int rows)
+        public new IQueryProvider<T> Limit(long rows)
         {
             return (IQueryProvider<T>)base.Limit(rows);
         }
 
-        public new IQueryProvider<T> Limit(int skip, int rows)
+        public new IQueryProvider<T> Limit(long skip, long rows)
         {
             return (IQueryProvider<T>)base.Limit(skip, rows);
         }

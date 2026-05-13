@@ -90,8 +90,8 @@ namespace NPoco.Linq
         IQueryProvider<T> OrderByDescending(Expression<Func<T, object>> column);
         IQueryProvider<T> ThenBy(Expression<Func<T, object>> column);
         IQueryProvider<T> ThenByDescending(Expression<Func<T, object>> column);
-        IQueryProvider<T> Limit(int rows);
-        IQueryProvider<T> Limit(int skip, int rows);
+        IQueryProvider<T> Limit(long rows);
+        IQueryProvider<T> Limit(long skip, long rows);
         IQueryProvider<T> From(QueryBuilder<T> builder);
     }
 
@@ -105,8 +105,8 @@ namespace NPoco.Linq
         IAsyncQueryProvider<T> OrderByDescending(Expression<Func<T, object>> column);
         IAsyncQueryProvider<T> ThenBy(Expression<Func<T, object>> column);
         IAsyncQueryProvider<T> ThenByDescending(Expression<Func<T, object>> column);
-        IAsyncQueryProvider<T> Limit(int rows);
-        IAsyncQueryProvider<T> Limit(int skip, int rows);
+        IAsyncQueryProvider<T> Limit(long rows);
+        IAsyncQueryProvider<T> Limit(long skip, long rows);
         IAsyncQueryProvider<T> From(QueryBuilder<T> builder);
     }
 

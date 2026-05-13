@@ -12,8 +12,8 @@ namespace NPoco.Linq
             ThenByDescendingExpression = new List<Expression<Func<T, object>>>();
         }
 
-        public int? Skip { get; set; }
-        public int? Rows { get; set; }
+        public long? Skip { get; set; }
+        public long? Rows { get; set; }
         public Expression<Func<T, bool>> WhereExpression { get; set; }
         public Expression<Func<T, object>> OrderByExpression { get; set; }
         public Expression<Func<T, object>> OrderByDescendingExpression { get; set; }

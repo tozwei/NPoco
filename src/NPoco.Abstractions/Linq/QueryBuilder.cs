@@ -13,13 +13,13 @@ namespace NPoco.Linq
             Data = new QueryBuilderData<T>();
         }
 
-        public virtual QueryBuilder<T> Limit(int rows)
+        public virtual QueryBuilder<T> Limit(long rows)
         {
             Data.Rows = rows;
             return this;
         }
 
-        public virtual QueryBuilder<T> Limit(int skip, int rows)
+        public virtual QueryBuilder<T> Limit(long skip, long rows)
         {
             Data.Rows = rows;
             Data.Skip = skip;
