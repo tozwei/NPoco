@@ -1080,6 +1080,31 @@ namespace NPoco
             return Exists<T>("");
         }
 
+        public int Count<T>(Expression<Func<T, bool>> whereExpression)
+        {
+            return (int)Query<T>().Where(whereExpression).Count();
+        }
+
+        public bool Any<T>(Expression<Func<T, bool>> whereExpression)
+        {
+            return Query<T>().Where(whereExpression).Any();
+        }
+
+        public bool Exists<T>(Expression<Func<T, bool>> whereExpression)
+        {
+            return Query<T>().Where(whereExpression).Any();
+        }
+
+        public T Single<T>(Expression<Func<T, bool>> whereExpression)
+        {
+            return Query<T>().Where(whereExpression).Single();
+        }
+
+        public T? FirstOrDefault<T>(Expression<Func<T, bool>> whereExpression)
+        {
+            return Query<T>().Where(whereExpression).FirstOrDefault();
+        }
+
         public void BuildPageQueries<T>(long skip, long take, string sql, ref object[] args, out string sqlCount, out string sqlPage)
         {
             // Add auto select clause

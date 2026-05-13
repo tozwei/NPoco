@@ -356,5 +356,143 @@ namespace NPoco.Tests.FluentTests.QueryTests
             var exists = await Database.ExistsAsync(typeof(User), sql);
             Assert.IsFalse(exists);
         }
+
+        [Test]
+        public void Count_WithExpression_ReturnsFilteredCount()
+        {
+            var count = Database.Count<User>(x => x.Age > 25);
+            var expected = InMemoryUsers.Count(x => x.Age > 25);
+            Assert.AreEqual(expected, count);
+        }
+
+        [Test]
+        public void Count_WithExpressionAndMultipleConditions_ReturnsFilteredCount()
+        {
+            var count = Database.Count<User>(x => x.Age > 21 && x.Age < 30);
+            var expected = InMemoryUsers.Count(x => x.Age > 21 && x.Age < 30);
+            Assert.AreEqual(expected, count);
+        }
+
+        [Test]
+        public void Any_WithExpression_ReturnsTrueWhenMatchExists()
+        {
+            var exists = Database.Any<User>(x => x.Age > 25);
+            Assert.IsTrue(exists);
+        }
+
+        [Test]
+        public void Any_WithExpression_ReturnsFalseWhenNoMatch()
+        {
+            var exists = Database.Any<User>(x => x.Age > 100);
+            Assert.IsFalse(exists);
+        }
+
+        [Test]
+        public void Exists_WithExpression_ReturnsTrueWhenMatchExists()
+        {
+            var exists = Database.Exists<User>(x => x.Age > 25);
+            Assert.IsTrue(exists);
+        }
+
+        [Test]
+        public void Exists_WithExpression_ReturnsFalseWhenNoMatch()
+        {
+            var exists = Database.Exists<User>(x => x.Age > 100);
+            Assert.IsFalse(exists);
+        }
+
+        [Test]
+        public void Single_WithExpression_ReturnsMatchingEntity()
+        {
+            var expectedUser = InMemoryUsers.First(x => x.UserId == 1);
+            var user = Database.Single<User>(x => x.UserId == 1);
+            Assert.AreEqual(expectedUser.UserId, user.UserId);
+            Assert.AreEqual(expectedUser.Name, user.Name);
+        }
+
+        [Test]
+        public void FirstOrDefault_WithExpression_ReturnsMatchingEntity()
+        {
+            var expectedUser = InMemoryUsers.First(x => x.Age > 25);
+            var user = Database.FirstOrDefault<User>(x => x.Age > 25);
+            Assert.IsNotNull(user);
+            Assert.AreEqual(expectedUser.UserId, user.UserId);
+        }
+
+        [Test]
+        public void FirstOrDefault_WithExpression_ReturnsNullWhenNoMatch()
+        {
+            var user = Database.FirstOrDefault<User>(x => x.Age > 100);
+            Assert.IsNull(user);
+        }
+
+        [Test]
+        public async Task CountAsync_WithExpression_ReturnsFilteredCount()
+        {
+            var count = await Database.CountAsync<User>(x => x.Age > 25);
+            var expected = InMemoryUsers.Count(x => x.Age > 25);
+            Assert.AreEqual(expected, count);
+        }
+
+        [Test]
+        public async Task CountAsync_WithExpressionAndMultipleConditions_ReturnsFilteredCount()
+        {
+            var count = await Database.CountAsync<User>(x => x.Age > 21 && x.Age < 30);
+            var expected = InMemoryUsers.Count(x => x.Age > 21 && x.Age < 30);
+            Assert.AreEqual(expected, count);
+        }
+
+        [Test]
+        public async Task AnyAsync_WithExpression_ReturnsTrueWhenMatchExists()
+        {
+            var exists = await Database.AnyAsync<User>(x => x.Age > 25);
+            Assert.IsTrue(exists);
+        }
+
+        [Test]
+        public async Task AnyAsync_WithExpression_ReturnsFalseWhenNoMatch()
+        {
+            var exists = await Database.AnyAsync<User>(x => x.Age > 100);
+            Assert.IsFalse(exists);
+        }
+
+        [Test]
+        public async Task ExistsAsync_WithExpression_ReturnsTrueWhenMatchExists()
+        {
+            var exists = await Database.ExistsAsync<User>(x => x.Age > 25);
+            Assert.IsTrue(exists);
+        }
+
+        [Test]
+        public async Task ExistsAsync_WithExpression_ReturnsFalseWhenNoMatch()
+        {
+            var exists = await Database.ExistsAsync<User>(x => x.Age > 100);
+            Assert.IsFalse(exists);
+        }
+
+        [Test]
+        public async Task SingleAsync_WithExpression_ReturnsMatchingEntity()
+        {
+            var expectedUser = InMemoryUsers.First(x => x.UserId == 1);
+            var user = await Database.SingleAsync<User>(x => x.UserId == 1);
+            Assert.AreEqual(expectedUser.UserId, user.UserId);
+            Assert.AreEqual(expectedUser.Name, user.Name);
+        }
+
+        [Test]
+        public async Task FirstOrDefaultAsync_WithExpression_ReturnsMatchingEntity()
+        {
+            var expectedUser = InMemoryUsers.First(x => x.Age > 25);
+            var user = await Database.FirstOrDefaultAsync<User>(x => x.Age > 25);
+            Assert.IsNotNull(user);
+            Assert.AreEqual(expectedUser.UserId, user.UserId);
+        }
+
+        [Test]
+        public async Task FirstOrDefaultAsync_WithExpression_ReturnsNullWhenNoMatch()
+        {
+            var user = await Database.FirstOrDefaultAsync<User>(x => x.Age > 100);
+            Assert.IsNull(user);
+        }
     }
 }

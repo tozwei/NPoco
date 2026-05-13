@@ -333,7 +333,32 @@ namespace NPoco
         /// Checks if any objects of type T exist using the conventions or configuration on the type T.
         /// </summary>
         bool Exists<T>();
-        
+
+        /// <summary>
+        /// Count objects of type T from the database using the expression specified.
+        /// </summary>
+        int Count<T>(Expression<Func<T, bool>> whereExpression);
+
+        /// <summary>
+        /// Checks if any objects of type T exist using the expression specified.
+        /// </summary>
+        bool Any<T>(Expression<Func<T, bool>> whereExpression);
+
+        /// <summary>
+        /// Checks if any objects of type T exist using the expression specified.
+        /// </summary>
+        bool Exists<T>(Expression<Func<T, bool>> whereExpression);
+
+        /// <summary>
+        /// Fetch the only row of type T using the expression specified.
+        /// </summary>
+        T Single<T>(Expression<Func<T, bool>> whereExpression);
+
+        /// <summary>
+        /// Fetch the first row of type T using the expression specified.
+        /// </summary>
+        T? FirstOrDefault<T>(Expression<Func<T, bool>> whereExpression);
+
         /// <summary>
         /// Fetches multiple result sets into the one object.
         /// In this method you must provide how you will take the results and combine them

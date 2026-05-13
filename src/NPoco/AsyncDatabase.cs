@@ -789,5 +789,30 @@ namespace NPoco
         {
             return ExistsAsync<T>("", cancellationToken);
         }
+
+        public Task<long> CountAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
+        {
+            return QueryAsync<T>().Count(whereExpression, cancellationToken);
+        }
+
+        public Task<bool> AnyAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
+        {
+            return QueryAsync<T>().Any(whereExpression, cancellationToken);
+        }
+
+        public Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
+        {
+            return QueryAsync<T>().Any(whereExpression, cancellationToken);
+        }
+
+        public Task<T> SingleAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
+        {
+            return QueryAsync<T>().Single(whereExpression, cancellationToken);
+        }
+
+        public Task<T?> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
+        {
+            return QueryAsync<T>().FirstOrDefault(whereExpression, cancellationToken);
+        }
     }
 }
