@@ -35,6 +35,21 @@ namespace NPoco.Tests.FluentTests.QueryTests
             Assert.AreEqual(1, users.Count);
         }
 
+        [Test]
+        public void WhereIf_AddsCondition_WhenTrue()
+        {
+            var users = Database.Query<User>().WhereIf(true, x => x.UserId == 1).ToList();
+            Assert.AreEqual(1, users.Count);
+            Assert.AreEqual(1, users[0].UserId);
+        }
+
+        [Test]
+        public void WhereIf_DoesNotAddCondition_WhenFalse()
+        {
+            var users = Database.Query<User>().WhereIf(false, x => x.UserId == 1).ToList();
+            Assert.AreEqual(15, users.Count);
+        }
+
         //[Test, NUnit.Framework.Ignore("Not Supported For Now")]
         public void FetchOnWithSecondGenericType()
         {
