@@ -381,11 +381,6 @@ namespace NPoco
         Task<bool> AnyAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Checks if any objects of type T exist using the expression specified.
-        /// </summary>
-        Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Fetch the only row of type T using the expression specified.
         /// </summary>
         Task<T> SingleAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default);

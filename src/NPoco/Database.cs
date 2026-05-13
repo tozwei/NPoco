@@ -1090,11 +1090,6 @@ namespace NPoco
             return Query<T>().Where(whereExpression).Any();
         }
 
-        public bool Exists<T>(Expression<Func<T, bool>> whereExpression)
-        {
-            return Query<T>().Where(whereExpression).Any();
-        }
-
         public T Single<T>(Expression<Func<T, bool>> whereExpression)
         {
             return Query<T>().Where(whereExpression).Single();

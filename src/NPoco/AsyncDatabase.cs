@@ -800,11 +800,6 @@ namespace NPoco
             return QueryAsync<T>().Any(whereExpression, cancellationToken);
         }
 
-        public Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
-        {
-            return QueryAsync<T>().Any(whereExpression, cancellationToken);
-        }
-
         public Task<T> SingleAsync<T>(Expression<Func<T, bool>> whereExpression, CancellationToken cancellationToken = default)
         {
             return QueryAsync<T>().Single(whereExpression, cancellationToken);

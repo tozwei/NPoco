@@ -345,11 +345,6 @@ namespace NPoco
         bool Any<T>(Expression<Func<T, bool>> whereExpression);
 
         /// <summary>
-        /// Checks if any objects of type T exist using the expression specified.
-        /// </summary>
-        bool Exists<T>(Expression<Func<T, bool>> whereExpression);
-
-        /// <summary>
         /// Fetch the only row of type T using the expression specified.
         /// </summary>
         T Single<T>(Expression<Func<T, bool>> whereExpression);

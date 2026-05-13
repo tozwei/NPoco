@@ -388,20 +388,6 @@ namespace NPoco.Tests.FluentTests.QueryTests
         }
 
         [Test]
-        public void Exists_WithExpression_ReturnsTrueWhenMatchExists()
-        {
-            var exists = Database.Exists<User>(x => x.Age > 25);
-            Assert.IsTrue(exists);
-        }
-
-        [Test]
-        public void Exists_WithExpression_ReturnsFalseWhenNoMatch()
-        {
-            var exists = Database.Exists<User>(x => x.Age > 100);
-            Assert.IsFalse(exists);
-        }
-
-        [Test]
         public void Single_WithExpression_ReturnsMatchingEntity()
         {
             var expectedUser = InMemoryUsers.First(x => x.UserId == 1);
@@ -453,20 +439,6 @@ namespace NPoco.Tests.FluentTests.QueryTests
         public async Task AnyAsync_WithExpression_ReturnsFalseWhenNoMatch()
         {
             var exists = await Database.AnyAsync<User>(x => x.Age > 100);
-            Assert.IsFalse(exists);
-        }
-
-        [Test]
-        public async Task ExistsAsync_WithExpression_ReturnsTrueWhenMatchExists()
-        {
-            var exists = await Database.ExistsAsync<User>(x => x.Age > 25);
-            Assert.IsTrue(exists);
-        }
-
-        [Test]
-        public async Task ExistsAsync_WithExpression_ReturnsFalseWhenNoMatch()
-        {
-            var exists = await Database.ExistsAsync<User>(x => x.Age > 100);
             Assert.IsFalse(exists);
         }
 
