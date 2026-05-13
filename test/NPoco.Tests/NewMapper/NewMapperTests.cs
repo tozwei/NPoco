@@ -260,11 +260,16 @@ select 5 OneId,'Name5' Name, null Items__Value, null Items__Currency /*poco_dual
 
             var list4 = Database.Query<RecursionUser>()
                 .Include(x => x.CreatedBy)
-                .WhereIf(true, x => x.Id.In(new[] { 2, 3 }))
                 .IncludeSecurity()
                 .ToList();
 
             var list5 = Database.Query<RecursionUser>()
+                .Include(x => x.CreatedBy)
+                .WhereIf(true, x => x.Id.In(new[] { 2, 3 }))
+                .IncludeSecurity()
+                .ToList();
+
+            var list6 = Database.Query<RecursionUser>()
                 .Include(x => x.CreatedBy)
                 .WhereIf(false, x => x.Id.In(new[] { 2, 3 }))
                 .IncludeSecurity()
