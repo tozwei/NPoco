@@ -12,4 +12,3 @@ TestResult.xml
 UnitTests*
 .vs*
 project.lock.json
-.fake

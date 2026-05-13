@@ -1,0 +1,5 @@
+﻿{
+  "TestDBType": 2,
+  "TestDbDataSource": "(localdb)\\MSSQLLocalDB",
+  "TestDbConnectionString": ""
+}
