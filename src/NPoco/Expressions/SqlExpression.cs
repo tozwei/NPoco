@@ -29,8 +29,8 @@ namespace NPoco.Expressions
         List<SelectMember> ISqlExpression.SelectMembers { get { return selectMembers; } }
         List<GeneralMember> ISqlExpression.GeneralMembers { get { return generalMembers; } }
         string ISqlExpression.WhereSql { get { return whereExpression; } }
-        int? ISqlExpression.Rows { get { return Rows; } }
-        int? ISqlExpression.Skip { get { return Skip; } }
+        long? ISqlExpression.Rows { get { return Rows; } }
+        long? ISqlExpression.Skip { get { return Skip; } }
         Type ISqlExpression.Type { get { return _type; } }
         object[] ISqlExpression.Params { get { return Context.Params; } }
         string ISqlExpression.TableHint { get { return tableHint; } }
@@ -322,7 +322,7 @@ namespace NPoco.Expressions
         /// <param name='rows'>
         /// Number of rows returned by a SELECT statement
         /// </param>
-        public virtual ISqlExpression<T> Limit(int skip, int rows)
+        public virtual ISqlExpression<T> Limit(long skip, long rows)
         {
             Rows = rows;
             Skip = skip;
@@ -335,7 +335,7 @@ namespace NPoco.Expressions
         /// <param name='rows'>
         /// Number of rows returned by a SELECT statement
         /// </param>
-        public virtual ISqlExpression<T> Limit(int rows)
+        public virtual ISqlExpression<T> Limit(long rows)
         {
             Rows = rows;
             Skip = 0;
@@ -507,8 +507,8 @@ namespace NPoco.Expressions
             }
         }
 
-        private int? Rows { get; set; }
-        private int? Skip { get; set; }
+        private long? Rows { get; set; }
+        private long? Skip { get; set; }
 
         protected internal PocoData ModelDef
         {

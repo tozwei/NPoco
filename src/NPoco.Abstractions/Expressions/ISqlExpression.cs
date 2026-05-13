@@ -9,8 +9,8 @@ namespace NPoco.Expressions
     public interface ISqlExpression
     {
         List<OrderByMember> OrderByMembers { get; }
-        int? Rows { get; }
-        int? Skip { get; }
+        long? Rows { get; }
+        long? Skip { get; }
         string WhereSql { get; }
         object[] Params { get; }
         Type Type { get; }
@@ -25,8 +25,8 @@ namespace NPoco.Expressions
         ISqlExpressionContext Context { get; }
 
         ISqlExpression<T> GroupBy<TKey>(Expression<Func<T, TKey>> keySelector);
-        ISqlExpression<T> Limit(int rows);
-        ISqlExpression<T> Limit(int skip, int rows);
+        ISqlExpression<T> Limit(long rows);
+        ISqlExpression<T> Limit(long skip, long rows);
         string On<T2>(Expression<Func<T, T2, bool>> predicate);
         ISqlExpression<T> OrderBy<TKey>(Expression<Func<T, TKey>> keySelector);
         ISqlExpression<T> OrderByDescending<TKey>(Expression<Func<T, TKey>> keySelector);
