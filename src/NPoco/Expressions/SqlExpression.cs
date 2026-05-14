@@ -195,13 +195,8 @@ namespace NPoco.Expressions
         {
             if (condition && predicate != null)
             {
-                And(predicate);
+                Where(predicate);
             }
-            else
-            {
-                whereExpression = string.Empty;
-            }
-
             return this;
         }
 
@@ -1124,8 +1119,8 @@ namespace NPoco.Expressions
 
             // Handle conversion operators (op_Implicit, op_Explicit) which cannot be dynamically invoked
             // These typically wrap constant values, so we visit the operand instead
-            if (m.Method.IsSpecialName && 
-                (m.Method.Name == "op_Implicit" || m.Method.Name == "op_Explicit") && 
+            if (m.Method.IsSpecialName &&
+                (m.Method.Name == "op_Implicit" || m.Method.Name == "op_Explicit") &&
                 m.Arguments.Count == 1)
             {
                 return Visit(m.Arguments[0]);
