@@ -6,7 +6,7 @@
 	<Authors>Adam Schröder;well</Authors>
 	<TargetFrameworks>net462;netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
 	<AssemblyName>NPoco.Abstractions</AssemblyName>
-	<PackageId>NPoco.Abstractions</PackageId>
+	<PackageId>Well.NPoco.Abstractions</PackageId>
 	<PackageTags>orm;sql;micro-orm;database;mvc</PackageTags>
 	<PackageProjectUrl>https://github.com/tozwei/NPoco</PackageProjectUrl>
     <Nullable>disable</Nullable>

@@ -5,7 +5,7 @@
 	<VersionPrefix>6.2.4</VersionPrefix>
 	<TargetFrameworks>net462;netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
 	<AssemblyName>NPoco.SqlServer</AssemblyName>
-	<PackageId>NPoco.SqlServer</PackageId>
+	<PackageId>Well.NPoco.SqlServer</PackageId>
 	<Authors>Adam Schröder;well</Authors>
 	<PackageTags>orm;sql;micro-orm;database;mvc</PackageTags>
 	<PackageProjectUrl>https://github.com/tozwei/NPoco</PackageProjectUrl>

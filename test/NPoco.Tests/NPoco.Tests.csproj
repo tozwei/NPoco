@@ -7,7 +7,7 @@
 		<TargetFrameworks>net10.0</TargetFrameworks>
 		<AssemblyName>NPoco.Tests</AssemblyName>
 		<OutputType>Library</OutputType>
-		<PackageId>NPoco.Tests</PackageId>
+		<PackageId>Well.NPoco.Tests</PackageId>
 		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
 		<GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
