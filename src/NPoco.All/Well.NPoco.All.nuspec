@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Well.NPoco.All</id>
+    <version>6.2.4</version>
+    <title>Well.NPoco.All</title>
+    <authors>Adam Schröder,well</authors>
+    <owners>Adam Schröder,well</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/tozwei/NPoco</projectUrl>
+    <description>An extremely easy to use Micro-ORM supporting Sql Server, MySQL, PostgreSQL, Oracle, Sqlite, SqlCE. This package includes all NPoco components: NPoco, NPoco.Abstractions, NPoco.SqlServer, NPoco.SqlServer.SystemData.</description>
+    <releaseNotes>https://github.com/schotime/NPoco/wiki/Release-Notes</releaseNotes>
+    <tags>orm;sql;micro-orm;database;mvc</tags>
+  </metadata>
+  <files>
+    <!-- net462 -->
+    <file src="..\NPoco\bin\Release\net462\NPoco.dll" target="lib\net462\NPoco.dll" />
+    <file src="..\NPoco.Abstractions\bin\Release\net462\NPoco.Abstractions.dll" target="lib\net462\NPoco.Abstractions.dll" />
+    <file src="..\NPoco.SqlServer\bin\Release\net462\NPoco.SqlServer.dll" target="lib\net462\NPoco.SqlServer.dll" />
+    <file src="..\NPoco.SqlServer.SystemData\bin\Release\net462\NPoco.SqlServer.SystemData.dll" target="lib\net462\NPoco.SqlServer.SystemData.dll" />
+
+    <!-- netstandard2.0 -->
+    <file src="..\NPoco\bin\Release\netstandard2.0\NPoco.dll" target="lib\netstandard2.0\NPoco.dll" />
+    <file src="..\NPoco.Abstractions\bin\Release\netstandard2.0\NPoco.Abstractions.dll" target="lib\netstandard2.0\NPoco.Abstractions.dll" />
+    <file src="..\NPoco.SqlServer\bin\Release\netstandard2.0\NPoco.SqlServer.dll" target="lib\netstandard2.0\NPoco.SqlServer.dll" />
+    <file src="..\NPoco.SqlServer.SystemData\bin\Release\netstandard2.0\NPoco.SqlServer.SystemData.dll" target="lib\netstandard2.0\NPoco.SqlServer.SystemData.dll" />
+
+    <!-- netstandard2.1 -->
+    <file src="..\NPoco\bin\Release\netstandard2.1\NPoco.dll" target="lib\netstandard2.1\NPoco.dll" />
+    <file src="..\NPoco.Abstractions\bin\Release\netstandard2.1\NPoco.Abstractions.dll" target="lib\netstandard2.1\NPoco.Abstractions.dll" />
+    <file src="..\NPoco.SqlServer\bin\Release\netstandard2.1\NPoco.SqlServer.dll" target="lib\netstandard2.1\NPoco.SqlServer.dll" />
+    <file src="..\NPoco.SqlServer.SystemData\bin\Release\netstandard2.1\NPoco.SqlServer.SystemData.dll" target="lib\netstandard2.1\NPoco.SqlServer.SystemData.dll" />
+
+    <!-- net8.0 -->
+    <file src="..\NPoco\bin\Release\net8.0\NPoco.dll" target="lib\net8.0\NPoco.dll" />
+    <file src="..\NPoco.Abstractions\bin\Release\net8.0\NPoco.Abstractions.dll" target="lib\net8.0\NPoco.Abstractions.dll" />
+    <file src="..\NPoco.SqlServer\bin\Release\net8.0\NPoco.SqlServer.dll" target="lib\net8.0\NPoco.SqlServer.dll" />
+    <file src="..\NPoco.SqlServer.SystemData\bin\Release\net8.0\NPoco.SqlServer.SystemData.dll" target="lib\net8.0\NPoco.SqlServer.SystemData.dll" />
+
+    <!-- net10.0 -->
+    <file src="..\NPoco\bin\Release\net10.0\NPoco.dll" target="lib\net10.0\NPoco.dll" />
+    <file src="..\NPoco.Abstractions\bin\Release\net10.0\NPoco.Abstractions.dll" target="lib\net10.0\NPoco.Abstractions.dll" />
+    <file src="..\NPoco.SqlServer\bin\Release\net10.0\NPoco.SqlServer.dll" target="lib\net10.0\NPoco.SqlServer.dll" />
+    <file src="..\NPoco.SqlServer.SystemData\bin\Release\net10.0\NPoco.SqlServer.SystemData.dll" target="lib\net10.0\NPoco.SqlServer.SystemData.dll" />
+  </files>
+</package>
