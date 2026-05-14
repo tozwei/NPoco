@@ -5,12 +5,12 @@
     <TargetFrameworks>net462;netstandard2.0;netstandard2.1;net8.0;net10.0</TargetFrameworks>
     <AssemblyName>NPoco</AssemblyName>
     <PackageId>NPoco</PackageId>
-    <VersionPrefix>6.2.0</VersionPrefix>
+    <VersionPrefix>6.2.4</VersionPrefix>
     <Authors>Adam Schröder;well</Authors>
     <PackageTags>orm;sql;micro-orm;database;mvc</PackageTags>
-    <PackageProjectUrl>https://github.com/schotime/NPoco</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/tozwei/NPoco</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageReleaseNotes>https://github.com/schotime/NPoco/wiki/Release-Notes</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/tozwei/NPoco/wiki/Release-Notes</PackageReleaseNotes>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
