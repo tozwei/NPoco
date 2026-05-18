@@ -80,6 +80,24 @@ namespace NPoco
         Task<int> DeleteAsync(object poco, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Runs an delete statement deriving the table name from T and appending the sql provided.
+        /// </summary>        
+        /// <example>
+        /// DeleteAsync&lt;User&gt;("where id = @0", 1);
+        /// </example>
+        Task<int> DeleteAsync<T>(string sql, params object[] args);
+
+        /// <summary>
+        /// Runs an delete statement deriving the table name from T and appending the sql provided.
+        /// </summary>        
+        Task<int> DeleteAsync<T>(Sql sql);
+
+        /// <summary>
+        /// Delete POCO deriving the table name from T and generating sql using the primary key
+        /// </summary>        
+        Task<int> DeleteAsync<T>(object pocoOrPrimaryKey, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Generate an update statement using a Fluent syntax. Remember to call Execute.
         /// </summary>
         IAsyncUpdateQueryProvider<T> UpdateManyAsync<T>();

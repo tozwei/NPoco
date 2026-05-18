@@ -286,6 +286,26 @@ namespace NPoco
             return DeleteImpAsync(tableName, primaryKeyName, poco, primaryKeyValue, false, cancellationToken);
         }
 
+        public Task<int> DeleteAsync<T>(string sql, params object[] args)
+        {
+            var tableInfo = PocoDataFactory.TableInfoForType(typeof(T));
+            return ExecuteAsync($"DELETE FROM {_dbType.EscapeTableName(tableInfo.TableName)} {sql}", args);
+        }
+
+        public Task<int> DeleteAsync<T>(Sql sql)
+        {
+            var tableInfo = PocoDataFactory.TableInfoForType(typeof(T));
+            return ExecuteAsync(new Sql($"DELETE FROM {_dbType.EscapeTableName(tableInfo.TableName)}").Append(sql));
+        }
+
+        public Task<int> DeleteAsync<T>(object pocoOrPrimaryKey, CancellationToken cancellationToken = default)
+        {
+            if (pocoOrPrimaryKey.GetType() == typeof(T))
+                return DeleteAsync(pocoOrPrimaryKey, cancellationToken);
+            var tableInfo = PocoDataFactory.TableInfoForType(typeof(T));
+            return DeleteAsync(tableInfo.TableName, tableInfo.PrimaryKey, null, pocoOrPrimaryKey, cancellationToken);
+        }
+
         public IAsyncDeleteQueryProvider<T> DeleteManyAsync<T>()
         {
             return new AsyncDeleteQueryProvider<T>(this);

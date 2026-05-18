@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -66,6 +66,60 @@ namespace NPoco.Tests.Async
             {
                 Assert.Null(ex);
             }
+        }
+
+        [Test]
+        public async Task DeleteAsync_WithSqlString()
+        {
+            var userId = InMemoryUsers[2].UserId;
+            var poco = await Database.QueryAsync<User>().Where(x => x.UserId == userId).SingleOrDefault();
+            Assert.IsNotNull(poco);
+
+            int deleted = await Database.DeleteAsync<User>("WHERE UserId = @0", userId);
+            Assert.AreEqual(1, deleted);
+
+            var verify = await Database.QueryAsync<User>().Where(x => x.UserId == userId).SingleOrDefault();
+            Assert.IsNull(verify);
+        }
+
+        [Test]
+        public async Task DeleteAsync_WithSqlObject()
+        {
+            var userId = InMemoryUsers[3].UserId;
+            var poco = await Database.QueryAsync<User>().Where(x => x.UserId == userId).SingleOrDefault();
+            Assert.IsNotNull(poco);
+
+            var sql = new Sql("WHERE UserId = @0", userId);
+            int deleted = await Database.DeleteAsync<User>(sql);
+            Assert.AreEqual(1, deleted);
+
+            var verify = await Database.QueryAsync<User>().Where(x => x.UserId == userId).SingleOrDefault();
+            Assert.IsNull(verify);
+        }
+
+        [Test]
+        public async Task DeleteAsync_WithPrimaryKey()
+        {
+            var poco = await Database.QueryAsync<User>().Where(x => x.UserId == InMemoryUsers[0].UserId).SingleOrDefault();
+            Assert.IsNotNull(poco);
+
+            await Database.DeleteAsync<User>(InMemoryUsers[0].UserId);
+
+            var verify = await Database.QueryAsync<User>().Where(x => x.UserId == InMemoryUsers[0].UserId).SingleOrDefault();
+            Assert.IsNull(verify);
+        }
+
+        [Test]
+        public async Task DeleteAsync_WithPrimaryKey_WithCancellationToken()
+        {
+            var poco = await Database.QueryAsync<User>().Where(x => x.UserId == InMemoryUsers[0].UserId).SingleOrDefault();
+            Assert.IsNotNull(poco);
+
+            var source = new CancellationTokenSource();
+            await Database.DeleteAsync<User>(InMemoryUsers[0].UserId, source.Token);
+
+            var verify = await Database.QueryAsync<User>().Where(x => x.UserId == InMemoryUsers[0].UserId).SingleOrDefault();
+            Assert.IsNull(verify);
         }
     }
 }
